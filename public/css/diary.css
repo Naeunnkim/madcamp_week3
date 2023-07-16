@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+:root {
+    --text-color: #000000;
+    --background-color: #f4d54a;
+    --accent-color: rgb(87, 170, 166)
+}
+
+body {
+    margin : 0;
+    font-family: 'Gowun Dodum', sans-serif;
+    /* font-family: 'Source Sans Pro'; */
+}
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    height:70px;
+    align-items: center;
+    background-color: #f8e281;
+    padding: 8px 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.navbar__logo {
+    font-size: 24px;
+    color: rgb(254, 111, 33, 0.7);
+}
+
+
+.navbar__icons {
+    list-style: none;
+    display :flex;
+    color:#000;
+    padding-left: 0px;
+}
+
+.navbar__icons li {
+    padding: 8px 12px;
+}
+
+.navbar__icons li:hover {
+    background-color : rgb(254, 111, 33, 0.7);
+    border-radius: 5px;
+}
+
+.navbar__menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0px;
+}
+
+.navbar__menu li {
+    padding: 10px 20px;
+}
+
+.navbar__menu li:hover {
+    background-color : rgb(254, 111, 33, 0.7);
+    border-radius: 5px;
+}
+
+.navbar__toggleBtn {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding : 10px 24px;
+    }
+    
+    .navbar__menu {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .navbar__menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar__icons{
+        display: none;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .navbar__toggleBtn {
+        display: block;
+        position: absolute;
+        right : 20px;
+        font-size: 24px;
+        color :rgb(87, 170, 166);
+    }
+
+    .navbar__menu.active,
+    .navbar__icons.active {
+        display: flex;
+        transition: 1s ease-out;
+    }
+}
+
+#btn-post-box:hover {
+    background-color : #f8e281;
+}
+
+main {
+    margin-top: 100px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+#diarypost {
+    width: 100px;
+    height: 100px;
+    background-color: #fbd314;
+    border: 1px solid black;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 10px;
+    width: 100%;
+    place-items: center;
+    align-items:start;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-flow: dense;    
+}
+
+.card-columns {
+    display: flex;
+    justify-content: center;
+    /* column-count: 3;
+    column-gap: 20px;
+     */
+}
+
+.card-columns .card:nth-child(-n+3) {
+    align-self: start;
+}
+
+.card-columns .card:nth-child(n+4) {
+    align-self: baseline;
+}
+
+.card {
+    /* flex: 0 0 calc(33.33% - 20px); /* 한 행에 3개씩 배치하도록 설정하고 간격을 고려
+  border: 1px solid #000;
+  padding: 10px;
+  margin: 5px; */
+
+    /* break-inside: avoid; */
+    
+    height: fit-content;
+    display: inline-block;
+    width: 80%;
+    border: 1px solid #000;
+    padding: 10px;
+    margin: 15px;
+}
+hr {
+    width: 70%;
+}
+
+.jumbotron {
+    margin-top: 100px;
+}
+
+.image-box {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.card-img-top {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.emotion-image {
+    width: 150px;
+    height: 150px;
+}

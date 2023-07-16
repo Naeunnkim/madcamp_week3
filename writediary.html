@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* 화면 높이에 맞추려면 필요한 높이로 조정할 수 있습니다. */
+        }
+
+        /* 테이블 가운데 정렬 스타일 */
+        body {
+            flex-direction: column;
+            font-family: 'Gowun Dodum', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(244, 213, 74, 0.7);
+            margin: 0;
+        }
+
+        input,
+        select,
+        textarea {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        table {
+            border: 1px solid black;
+            width: 500px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="image-container">
+        <img src="/public/image/pagelogo.png">
+    </div>
+
+    <form method="post" id="diaryform">
+        <table border="1" width=500>
+            <tr>
+                <th colspan="2">
+                    하루 기록
+                </th>
+            </tr>
+            <tr>
+                <td width=50>
+                    <input type="date" id="dateInput">
+                    <select id="emotionInput">
+                        <option>기분 최고</option>
+                        <option>평범해</option>
+                        <option>그저 그래</option>
+                        <option>우울해</option>
+                        <option>짜증나</option>
+                    </select>
+
+                    <input type='checkbox' id='postonboard' value=1/>게시판에 표시하기
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height=400>
+                    <textarea id="textInput" placeholder="오늘 하루는 어땠나요?" style="width: 90%; height: 90%"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align=center>
+                    <input type="file" id="imageInput" accept="image/*">
+                    <input type="submit" id="diaryForm" value="글쓰기">
+                    <input type="button" value="목록으로" onclick="goToList()">
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+    <script src = "/public/writediary.js"></script>
+
+</body>
+
+</html>

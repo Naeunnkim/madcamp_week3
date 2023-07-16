@@ -1,22 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
 :root {
     --text-color: #000000;
     --background-color: #fbd314;
     --accent-color: rgb(87, 170, 166)
-}      
-body {
-    margin : 0;
-    font-family: 'Source Sans Pro';
 }
+
+body {
+    font-family: 'Gowun Dodum', sans-serif;
+    margin: 0;
+    font-family: 'Source Sans Pro';
+    background-color: #fffffb;
+}
+
 a {
     text-decoration: none;
     color: var(--text-color);
 }
+
 .navbar {
+    font-family: 'Gowun Dodum', sans-serif;
     display: flex;
     justify-content: space-between;
+    height: 70px;
     align-items: center;
-    background-color: rgba(251, 211, 20, 0.7);
+    background-color: #f8e281;
     padding: 8px 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .navbar__logo {
@@ -24,19 +37,23 @@ a {
     color: rgb(254, 111, 33, 0.7);
 }
 
-.navbar__menu li {
-    padding: 10px 20px;
-}
 
 .navbar__icons {
     list-style: none;
-    display :flex;
-    color:white;
+    display: flex;
+    color: #000;
+    align-items: center;
+    height:fit-content;
     padding-left: 0px;
 }
 
 .navbar__icons li {
-    /* padding: 8px 12px; */
+    padding: 8px 12px;
+}
+
+.navbar__icons li:hover {
+    background-color: rgb(254, 111, 33, 0.7);
+    border-radius: 5px;
 }
 
 .navbar__menu {
@@ -46,16 +63,12 @@ a {
 }
 
 .navbar__menu li {
-    padding: 8px 13px;
+    padding: 10px 20px;
 }
 
 .navbar__menu li:hover {
-    background-color : rgb(254, 111, 33, 0.7);
+    background-color: rgb(254, 111, 33, 0.7);
     border-radius: 5px;
-}
-
-.navbar__icons li {
-    padding : 10px;
 }
 
 .navbar__toggleBtn {
@@ -66,9 +79,9 @@ a {
     .navbar {
         flex-direction: column;
         align-items: flex-start;
-        padding : 10px 24px;
+        padding: 10px 24px;
     }
-    
+
     .navbar__menu {
         display: none;
         flex-direction: column;
@@ -81,7 +94,7 @@ a {
         text-align: center;
     }
 
-    .navbar__icons{
+    .navbar__icons {
         display: none;
         width: 100%;
         justify-content: center;
@@ -90,9 +103,9 @@ a {
     .navbar__toggleBtn {
         display: block;
         position: absolute;
-        right : 20px;
+        right: 20px;
         font-size: 24px;
-        color :rgb(87, 170, 166);
+        color: rgb(87, 170, 166);
     }
 
     .navbar__menu.active,
@@ -100,4 +113,24 @@ a {
         display: flex;
         transition: 1s ease-out;
     }
+}
+
+main {
+    margin-top: 100px;
+}
+
+
+.text_btn {
+    text-decoration: none;
+    color: var(--text-color);
+
+}
+
+.text_btn:hover {
+    background-color: rgb(254, 111, 33, 0.7);
+    border-radius: 5px;
+}
+
+.logout {
+    cursor: pointer;
 }

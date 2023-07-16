@@ -1,40 +1,89 @@
 <!DOCTYPE html>
-<html lang = "ko">
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/navbar.css">
+    <link rel="stylesheet" href="/public/css/dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/95122cdcc7.js" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script src="navbar.js" defer ></script>
+    <!-- <script src="navbar.js" defer></script> -->
+    <script src="/public/login_check.js"></script>
 </head>
+
 <body>
-    <nav class="navbar"> 
-        <div class="navbar__logo">
-            <i class="fab fa-reddit"></i>
-            <a href="">사이트제목</a>
+    <header>
+        <nav class="navbar">
+            <div class="navbar__logo">
+                <i class="fab fa-reddit"></i>
+                <a href="main">사이트제목</a>
+            </div>
+            <!-- navbar 목록 -->
+            <ul class="navbar__menu">
+                <li><a href="main">Home</a></li>
+                <li><a href="dashboard">Dashboard</a></li>
+                <li><a href="diary">Diary</a></li>
+                <li><a href="meditation">Meditation</a></li>
+            </ul>
+
+            <ul class="navbar__icons">
+                <!--추후 로그인, 회원가입 버튼으로 변경-->
+                <li><a href="login">Log in</a></li>
+                <li><a href="signup">Sign up</a></li>
+            </ul>
+
+            <a href="#" class="navbar__toggleBtn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- <h1>dashboard</h1> -->
+        <div class="wrap">
+            <div class="left">
+                게시판????????
+            </div>
+            <div class="right">
+                <div class="jumbotron">
+                    <h1 class="display-4">나의 오늘</h1>
+                    <p class="lead">하루 기록 차곡차곡 쌓기</p>
+                    <hr class="my-4">
+                    <p class="lead">
+                        <a href="writediary" id="btn-post-box" class="btn btn-primary">오늘 하루 기록하기</a>
+                        <!-- <button onclick="openClose()" id="btn-post-box" type="button" class="btn btn-primary">오늘 하루 기록하기
+                        </button> -->
+                    </p>
+                </div>
+                <div id="post-box" class="form-post" style="display:none">
+                    <div>
+                        <div class="form-group">
+                            <label for="post-url">URL</label>
+                            <input id="post-url" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="post-comment">영화 코멘트</label>
+                            <textarea id="post-comment" class="form-control" rows="2"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="postArticle()">영화 메모</button>
+                    </div>
+                </div>
+                <div id="cards-box" class="card-columns">
+                    
+                </div>
+            </div>
         </div>
-
-        <!-- navbar 목록 -->
-        <ul class="navbar__menu">
-            <li><a href="main">Home</a></li>
-            <li><a href="dashboard">Dashboard</a></li>
-            <li><a href="diary">Diary</a></li>
-            <li><a href="meditation">Meditation</a></li>
-        </ul>
-        
-        <ul class="navbar__icons">
-            <!--추후 로그인, 회원가입 버튼으로 변경-->
-            <li><i class="fab fa-twitter"></i></li>
-            <li><i class="fab fa-facebook"></i></li>
-        </ul>
-
-        <a href="#" class="navbar__toggleBtn">
-            <i class="fas fa-bars"></i>
-        </a>
-    </nav>
-    <h1>dashboard</h1>
+    </main>
+    <script src="/public/dashboard.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateNavbarIcons(); 
+        });
+    </script>
 </body>
+
 </html>

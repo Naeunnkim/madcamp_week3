@@ -6,138 +6,72 @@
     <meta http-equiv="X-UA-Compatible" contdmaent="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
     <title>Document</title>
-
-    <link rel="stylesheet" href="/public/css/navbar.css">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
-    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script src="navbar.js" defer ></script>
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/95122cdcc7.js" crossorigin="anonymous"></script>
-    
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/public/css/animation2.css"></link> -->
-    <link rel="stylesheet" href="/public/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/navbar.css">
+    
+    
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-
-    <style>
-        .hidden {
-            display:none;
-        }
-    </style>
+    <script src="/public/login_check.js"></script>
 </head>
 
 <body>
+    <header>
+        <nav class="navbar"> 
+            <div class="navbar__logo">
+                <i class="fab fa-reddit"></i>
+                <a href="main">사이트제목</a>
+            </div>
+    
+            <!-- navbar 목록 -->
+            <ul class="navbar__menu">
+                <li><a href="main">Home</a></li>
+                <li><a href="dashboard">Dashboard</a></li>
+                <li><a href="diary">Diary</a></li>
+                <li><a href="meditation">Meditation</a></li>
+            </ul>
+            
+            <ul class="navbar__icons">
+                <!--추후 로그인, 회원가입 버튼으로 변경-->
+                <li><a href="login">Log in</a></li>
+                <li><a href="signup">Sign up</a></li>
+            </ul>
+    
+            <a href="#" class="navbar__toggleBtn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </nav>
+    </header>
 
-    <nav class="navbar"> 
-        <div class="navbar__logo">
-            <i class="fab fa-reddit"></i>
-            <a href="">사이트제목</a>
+    <main>
+        <div class="musicPlayer">
+            <center>
+                <input type="range" id="seekBar" min="0" max="100" step="1" value="0" class="custom-range" />
+            </center>
         </div>
-
-        <!-- navbar 목록 -->
-        <ul class="navbar__menu">
-            <li><a href="main">Home</a></li>
-            <li><a href="dashboard">Dashboard</a></li>
-            <li><a href="diary">Diary</a></li>
-            <li><a href="meditation">Meditation</a></li>
-        </ul>
+        <div>
+            <center>
+                <span id="currentTime">0:00:00</span>
+                <button id="playButton">
+                    <i class="fa-solid fa-play fa-2x" style="color: #ffc2d4;"></i>
+                </button>
+                <span id="duration">0:00:00</span>
+            </center>
+        </div>    
+        <div id="player"></div>
+    
         
-        <ul class="navbar__icons">
-            <!--추후 로그인, 회원가입 버튼으로 변경-->
-            <li><i class="fab fa-twitter"></i></li>
-            <li><i class="fab fa-facebook"></i></li>
-        </ul>
+         <script src = "/public/music.js"></script>
+    </main>
 
-        <a href="#" class="navbar__toggleBtn">
-            <i class="fas fa-bars"></i>
-        </a>
-    </nav>
-    <script src = "/public/music.js"></script>
-    <script src="/public/navbar.js" defer ></script>
     <script type="module" src="/public/animation1.js"></script>
-    <!-- <script type="module" src="/public/animation2.js"></script> -->
-
-    
-    
-    <div class="musicPlayer">
-        <center>
-            <input type="range" id="seekBar" min="0" max="100" step="1" value="0" class="custom-range" />
-        </center>
-    </div>
-    <div>
-        <center>
-            <span id="currentTime">0:00:00</span>
-            <button id="playButton">
-                <i class="fa-solid fa-play fa-2x" style="color: #ffc2d4;"></i>
-            </button>
-            <span id="duration">0:00:00</span>
-        </center>
-    </div>    
-    <div id="player"></div>
-
-    <div class="tab">
-        <center>
-            <button class="tablinks" onclick="openTab(event, 'tab1')">Tab 1</button>
-            <button class="tablinks" onclick="openTab(event, 'tab2')">Tab 2</button>
-            <!-- <button class="tablinks" onclick="openTab(event, 'tab3')">Tab 3</button> -->
-        </center>
-        
-    </div>
-
-    <div id="tab1" class="tabcontent">
-        <!--tab1의 내용-->
-    </div>
-
-    <div id="tab2" class="tabcontent">
-        <!--tab2의 내용-->
-    </div>
-
-    <!-- <div id="tab3" class="tabcontent">
-        tab3의 내용 -->
-    </div>
-    
-
     <script>
-        //탭 클릭 이벤트 핸들러
-        function openTab(event, tabName) {
-            //모든 탭 내용을 숨김
-            var tabcontents = document.getElementsByClassName('tabcontent');
-            for(var i=0; i<tabcontents.length; i++) {
-                tabcontents[i].classList.add('hidden');
-            }
-
-            //클릭한 탭의 내용을 표시
-            var selectedTab = document.getElementById(tabName);
-            selectedTab.classList.remove('hidden');
-
-            //탭에 맞는 css, js 파일을 로드
-            if(tabName==='tab2') {
-                loadCSS('/public/css/animation2.css');
-                loadJS('/public/animation2.js');
-            } else if(tabName=='tab1') {
-                loadCSS('/public/css/style.css');
-                loadJS('/public/animation1.js');
-            }
-        }
-
-        //css 파일 로드 함수
-        function loadCSS(url) {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = url;
-            document.head.appendChild(link);
-        }
-
-        //js 파일 로드 함수
-        function loadJS(url) {
-            var script = document.createElement('script');
-            script.src = url;
-            script.defer = true;
-            document.body.appendChild(script);
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            updateNavbarIcons(); 
+        });
     </script>
-
 </body>
 
 </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/signup.css">
+</head>
+<body>
+    <div id="wrap2" class="wrapper">
+        <form method="post" name="edit" id="edit">
+            <header>
+                <div id="header">
+                    <h1 class="h_loho">
+                        <span>마이페이지</span>
+                    </h1>
+                </div>
+            </header>
+
+            <div id="container">
+                <div class="row_group">
+                    <div class="userInput">
+                        <h3 class="list">아이디</h3><span id="my-id" style="font-weight: 600; margin-left: 15px;"></span>
+                    </div>
+                    <div class="userInput">
+                        <h3 class="list">비밀번호</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="pwError"></span>
+                        <span class="box_int_id"><input type="password" id="pw" class="int check" maxlength="20"></span>
+                    </div>
+                    <div class="userInput">
+                        <h3 class="list">비밀번호 재확인</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="pwCheckError"></span>
+                        <span class="box_int_id"><input type="password" id="pwCheck" class="int check"
+                                maxlength="20"></span>
+                    </div>
+                </div>
+                <div class="row_group">
+                    <div class="userInput">
+                        <h3 class="list">닉네임</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="nameError"></span>
+                        <span class="box_int_id"><input type="text" id="name" class="int check" maxlength="20"></span>
+                    </div>
+                    <div class="userInput">
+                        <h3 class="list">전화번호("-" 제외)</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="phoneNumError"></span>
+                        <span class="box_int_id"><input type="text" id="phoneNum" class="int check"
+                                maxlength="11"></span>
+                    </div>
+                    <div class="userInput">
+                        <h3 class="list">이메일</h3><span class="error" id="emailError"></span>
+                        <span class="emailInt" id="emailBox"> <input type="text" id="email" maxlength="20"
+                                class="check">
+                            <span> @ </span>
+                            <input class="custom-email" disabled id="domain-input" />
+                            <select id="mail_Select">
+                                <option disabled value="" selected>선택</option>
+                                <option value="naver.com">naver.com</option>
+                                <option value="hanmail.net">hanmail.net</option>
+                                <option value="google.com">google.com</option>
+                                <option value="nate.com">nate.com</option>
+                                <option value="custom">직접 입력</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="btn_area">
+                        <input type="submit" value="수정하기" id="btnedit" class="btn_type btn_primary">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/public/profile.js"></script>
+</body>
+</html>

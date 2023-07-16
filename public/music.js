@@ -52,6 +52,7 @@ function onPlayerReady(event) {
         var seekTo = player.getDuration() * (seekBar.value / 100);
         player.seekTo(seekTo, true);
     });
+    setInterval(updateSeekBar, 100);
 }
 
 // YouTube 플레이어 상태 변경 이벤트 핸들러
@@ -62,7 +63,7 @@ function onPlayerStateChange(event) {
         duration.innerText = formattedDuration;
 
         // 재생바 업데이트
-        setInterval(updateSeekBar, 1000);
+        setInterval(updateSeekBar, 100);
     }
 }
 
@@ -96,6 +97,7 @@ function onPlayerStateChange(event) {
         // 재생 중인 경우, isPlaying 변수를 true로 설정하고 아이콘을 정지 아이콘으로 업데이트
         isPlaying = true;
         document.getElementById("playButton").innerHTML = '<i class="fa-solid fa-pause fa-2x" style="color: #ffc2d4;"></i>';
+        updateSeekBar();
     } else {
         // 정지 상태인 경우, isPlaying 변수를 false로 설정하고 아이콘을 재생 아이콘으로 업데이트
         isPlaying = false;

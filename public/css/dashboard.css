@@ -10,6 +10,23 @@ body {
     box-sizing: border-box;
 }
 
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 40px;
+    margin-left: 58px; */
+    margin: 40px auto;
+    width: 320px;
+    height: 70px;
+}
+
+.centered-image {
+    object-fit:cover; /* 이미지가 컨테이너에 전체적으로 보이도록 설정합니다 */
+    width: 100%; /* 이미지의 너비를 컨테이너에 맞게 조절합니다 */
+    height: 100%; /* 이미지의 높이를 컨테이너에 맞게 조절합니다 */
+}
+
 .right {
     width: 70%;
     float: right;
@@ -27,3 +44,100 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.emotion-image {
+    width: 150px;
+    height: 150px;
+}
+
+
+.card-columns {
+    display: grid;
+    /* grid-template-columns: repeat(2, 1fr); */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    width: 90%;
+    place-items: center;
+    align-items: start;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-flow: dense;    
+}
+
+.card {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    
+}
+
+.card-body {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgb(163, 163, 163);
+    border-radius: 13px;
+    margin: 8px 0px;
+    padding: 10px;
+    cursor: pointer;
+    width: 350px;
+    height: fit-content;
+}
+.card-body p,
+.card-body img {
+  margin: 0;
+}
+
+.my-4 {
+    width: 90%;
+    margin-left: 0;
+}
+
+.lead_button {
+    width: 90%;
+    text-align: right;
+
+}
+
+#btn-post-box:hover {
+    background-color : #f8e281;
+}
+
+.chart {
+    /* margin-top: 20px;
+    margin-left: 50px; */
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+
+    width: 300px;
+    height: 700px;
+  }
+  
+  .bar {
+    width: 100%;
+    background-color: #007bff;
+    margin: 0px 9px;
+  }
+
+  .great {
+    background-color: #feea89;
+  }
+
+  .good {
+    background-color: #fcccca;
+  }
+
+  .soso {
+    background-color: #e8daf5;
+  }
+
+  .sad {
+    background-color: #bed4f7;
+  }
+
+  .annoyed {
+    background-color: #d7e5b4;
+  }

@@ -31,7 +31,7 @@
             </ul>
 
             <ul class="navbar__icons">
-                <!--추후 로그인, 회원가입 버튼으로 변경-->
+                <!--로그인, 회원가입 버튼-->
                 <li><a href="login">Log in</a></li>
                 <li><a href="signup">Sign up</a></li>
             </ul>
@@ -46,35 +46,28 @@
         <!-- <h1>dashboard</h1> -->
         <div class="wrap">
             <div class="left">
-                게시판????????
+                <div class="image-container">
+                    <img src="/public/image/graphlogo.png" alt="Image" class="centered-image">
+                </div>
+                <div class="chart">
+                    <div class="bar great"></div>
+                    <div class="bar good"></div>
+                    <div class="bar soso"></div>
+                    <div class="bar sad"></div>
+                    <div class="bar annoyed"></div>
+                </div>
             </div>
             <div class="right">
                 <div class="jumbotron">
-                    <h1 class="display-4">나의 오늘</h1>
-                    <p class="lead">하루 기록 차곡차곡 쌓기</p>
+                    <h1 class="display-4">하루의 조각들</h1>
+                    <p class="lead">기록 모아모아 엮어 보기</p>
                     <hr class="my-4">
-                    <p class="lead">
-                        <a href="writediary" id="btn-post-box" class="btn btn-primary">오늘 하루 기록하기</a>
-                        <!-- <button onclick="openClose()" id="btn-post-box" type="button" class="btn btn-primary">오늘 하루 기록하기
-                        </button> -->
+                    <p class="lead_button">
+                        <a href="writediary" id="btn-post-box" class="btn btn-primary">
+                            <i class="fas fa-pen"></i>  오늘 하루 기록하기  </a>
                     </p>
                 </div>
-                <div id="post-box" class="form-post" style="display:none">
-                    <div>
-                        <div class="form-group">
-                            <label for="post-url">URL</label>
-                            <input id="post-url" class="form-control" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="post-comment">영화 코멘트</label>
-                            <textarea id="post-comment" class="form-control" rows="2"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="postArticle()">영화 메모</button>
-                    </div>
-                </div>
-                <div id="cards-box" class="card-columns">
-                    
-                </div>
+                <div id="cards-box" class="card-columns"></div>
             </div>
         </div>
     </main>

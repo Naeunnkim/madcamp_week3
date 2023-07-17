@@ -4,6 +4,67 @@ let currentDay = today.getDate();
 let currentMonth = today.getMonth(); // 현재 날짜의 월로 설정
 let currentYear = today.getFullYear();
 
+let filteredData = [];
+
+function fetchDiaryDataFromServer() {
+    fetch('/diary', {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            filteredData = data.map(item => ({
+                date: item.date,
+                emotion: item.emotion
+            }));
+            updateCalendar(currentYear, currentMonth);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    
+}
+
+//감정 데이터를 표시하는 함수
+function renderEmotionImage(cell, emotion) {
+    const emotionImage = document.createElement('img');
+    emotionImage.className = 'emotion-image';
+    switch (emotion) {
+        case 1:
+            emotionImage.src = '/public/image/1.png';
+            break;
+        case 2:
+            emotionImage.src = '/public/image/2.png';
+            break;
+        case 3:
+            emotionImage.src = '/public/image/3.png';
+            break;
+        case 4:
+            emotionImage.src = '/public/image/4.png';
+            break;
+        case 5:
+            emotionImage.src = '/public/image/5.png';
+            break;
+    }
+    // 이미지 크기 조정 (50px * 50px)
+    emotionImage.style.width = '50px';
+    emotionImage.style.height = '50px';
+
+    // 이미지를 cell의 가운데로 정렬
+    emotionImage.style.display = 'block';
+    emotionImage.style.margin = 'auto';
+
+    // 이미지를 담을 div 엘리먼트 생성
+    const imageBox = document.createElement('div');
+    imageBox.className = 'image-box';
+    imageBox.appendChild(emotionImage);
+
+    cell.appendChild(emotionImage);
+}
+
 const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 // 윤년 계산
@@ -15,14 +76,17 @@ if (currentYear % 400 == 0 || (currentYear % 100 != 0 && currentYear % 4 == 0)) 
 const monthStartDay = new Date(currentYear, currentMonth, 1).getDay();
 const monthLastDate = monthDays[currentMonth];
 
-// 달력 만들기
-function renderCalendar() {
-    // 달력 테이블 생성
+function renderCalendar(year, month) {
+
+    const firstDay = new Date(year, month, 1);
+    const monthStartDay = firstDay.getDay();
+    const monthLastDate = monthDays[month];
+
     const table = document.createElement('table');
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
 
-    // 테이블 헤더 (요일 표시)
+    //테이블 헤더 (요일 표시)
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
     const headerRow = document.createElement('tr');
     for (let day of daysOfWeek) {
@@ -32,8 +96,8 @@ function renderCalendar() {
     }
     thead.appendChild(headerRow);
     table.appendChild(thead);
-
-    // 테이블 내용 (날짜 표시)
+    
+    //테이블 내용
     let date = 1;
     for (let i = 0; i < 6; i++) {
         const row = document.createElement('tr');
@@ -49,11 +113,11 @@ function renderCalendar() {
                 cell.textContent = date;
                 row.appendChild(cell);
 
-                if (
-                    date === today.getDate() &&
-                    currentMonth === today.getMonth() &&
-                    currentYear === today.getFullYear()
-                ) {
+                const today = new Date();
+                const currentYear = today.getFullYear();
+                const currentMonth = today.getMonth();
+                
+                if (date === today.getDate() && month === currentMonth && year === currentYear) {
                     cell.classList.add('today');
                 }
 
@@ -68,14 +132,23 @@ function renderCalendar() {
                 date++;
             }
         }
-
         tbody.appendChild(row);
-    }
 
-    table.appendChild(tbody);
-    const calendarElement = document.getElementById('calendar');
-    calendarElement.innerHTML = '';
-    calendarElement.appendChild(table);
+        table.appendChild(tbody);
+
+        const calendarElement = document.getElementById('calendar');
+        calendarElement.innerHTML = '';
+        calendarElement.appendChild(table);
+
+        const cells = document.querySelectorAll('.calendar td');
+        cells.forEach(cell => {
+            const cellDate = cell.dataset.date;
+            const diaryItem = filteredData.find(item => item.date === cellDate);
+            if (diaryItem && diaryItem.emotion) {
+                renderEmotionImage(cell, diaryItem.emotion);
+            }
+        });
+    }
 }
 
 // 이전 달로 이동
@@ -85,7 +158,7 @@ function prevMonth() {
         currentMonth = 11;
         currentYear--;
     }
-    updateCalendar();
+    updateCalendar(currentYear, currentMonth);
 }
 
 // 다음 달로 이동
@@ -95,14 +168,14 @@ function nextMonth() {
         currentMonth = 0;
         currentYear++;
     }
-    updateCalendar();
+    updateCalendar(currentYear, currentMonth);
 }
 
 // 달력 업데이트
-function updateCalendar() {
+function updateCalendar(year, month) {
     today = new Date(currentYear, currentMonth, currentDay);
     document.getElementById('currentMonth').textContent = `${currentYear}년 ${currentMonth + 1}월`;
-    renderCalendar();
+    renderCalendar(year, month);
 }
 
 // 이전 달, 다음 달 버튼에 이벤트 리스너 추가
@@ -110,4 +183,4 @@ document.getElementById('prevBtn').addEventListener('click', prevMonth);
 document.getElementById('nextBtn').addEventListener('click', nextMonth);
 
 // 초기 달력 렌더링
-updateCalendar();
+updateCalendar(currentYear, currentMonth);

@@ -79,14 +79,44 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/login.html');
 })
 
-app.get('/profile', (req, res)=>{
+app.get('/profile', (req, res) => {
     res.sendFile(__dirname + '/profile.html');
+})
+
+app.get('/boarddetail', (req, res) => {
+    res.sendFile(__dirname + '/boarddetail.html');
+})
+
+app.get('/diarydetail', (req, res) => {
+    res.sendFile(__dirname + '/diarydetail.html');
 })
 
 app.get('/posts', (req, res) => {
     console.log('posts');
-    connection.query('select * from dashboard natural join diary', (err, rows) => {
+    connection.query(`SELECT a.*, COALESCE(b.good, 0) AS good
+        FROM (SELECT *
+            FROM dashboard
+            NATURAL JOIN diary
+            ORDER BY date DESC) a
+        LEFT JOIN (SELECT postnum, COUNT(*) AS good
+               FROM dashboard
+               NATURAL JOIN board_good
+               GROUP BY postnum) b
+        ON a.postnum = b.postnum order by a.date desc;
+        `, (err, rows) => {
         res.status(200).send(rows);
+    })
+})
+
+app.get('/graph', (req, res) => {
+    connection.query('SELECT emotion, COUNT(*) AS count FROM diary  GROUP BY emotion order by emotion', (err, result) => {
+        res.status(200).json({
+            cnt1: result[0].count,
+            cnt2: result[1].count,
+            cnt3: result[2].count,
+            cnt4: result[3].count,
+            cnt5: result[4].count
+        });
     })
 })
 
@@ -141,7 +171,7 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/submit', (req, res) => {
-    const { id, date, emotion, text, photo, board } = req.body;
+    const { id, date, emotion, text, photo, board, check } = req.body;
     // console.log(date);
     // console.log(emotion);
     // console.log(text);
@@ -169,24 +199,38 @@ app.post('/submit', (req, res) => {
                         connection.query('insert into dashboard (postnum) values(?)', [postnum]);
                         res.status(200).json({
                             success: true,
-                            insert: true //게시판에 올렸는지
+                            insert: true, //게시판에 올렸는지
+                            edit: false
                         })
                     })
                 }
                 else {
                     res.status(200).json({
                         success: true,
-                        insert: false
+                        insert: false,
+                        edit: false
                     })
                 }
             })
         }
         //그 날짜에 작성한 일기 있음
         else {
-            console.log("이미 일기 작성함");
-            res.status(200).json({
-                success: false
-            });
+            if (check) {
+                console.log("글 수정");
+                connection.query('update diary set emotion = ?, photo = ?, text = ? where id = ? and date = ?', [emotion, photo, text, id, date], (err, rows)=>{
+                    res.status(200).json({
+                        success: true,
+                        edit: true
+                    })
+                })
+            }
+            else {
+                console.log("이미 일기 작성함");
+                res.status(200).json({
+                    success: false
+                });
+            }
+
         }
     })
 })
@@ -210,14 +254,14 @@ app.post('/upload', (req, res) => {
 app.post('/diary', (req, res) => {
     const body = req.body;
     const id = body.id;
-    connection.query('select * from diary where id = ?', [id], (err, rows) => {
+    connection.query('select * from diary where id = ? order by date desc', [id], (err, rows) => {
         console.log('다이어리 데이터 전송 성공');
         // console.log(rows);
         res.status(200).json(rows);
     })
 })
 
-app.post('/profile', (req, res)=>{
+app.post('/profile', (req, res) => {
     const body = req.body;
     const id = body.id;
     const pw = body.pw;
@@ -225,11 +269,81 @@ app.post('/profile', (req, res)=>{
     const tel = body.phoneNum;
     const email = body.email;
     // console.log(id, pw, name, tel, email);
-    connection.query('update user_info set pw = ?, name = ?, tel = ?, email = ? where id = ?', [pw, name, tel, email, id], (err, rows)=>{
+    connection.query('update user_info set pw = ?, name = ?, tel = ?, email = ? where id = ?', [pw, name, tel, email, id], (err, rows) => {
         if (err) throw err;
-        res.status(200).json({succes:true});
+        res.status(200).json({ succes: true });
     })
 })
 
+app.post('/boarddetail', (req, res) => {
+    const body = req.body;
+    const postnum = body.postnum;
+    connection.query('select * from comment where postnum = ?', [postnum], (err, rows) => {
+        if (err) throw err;
+        res.status(200).json(rows);
+    })
+})
 
+app.post('/wcomment', (req, res) => {
+    const body = req.body;
+    const postnum = body.postnum;
+    const id = body.id;
+    const datetime = body.datetime;
+    const text = body.text;
+    connection.query('insert into comment (postnum, id, datetime, text) values(?, ?, ?, ?)', [postnum, id, datetime, text], (err, rows) => {
+        if (err) throw err;
+        res.status(200).json({ success: true });
+    })
+})
 
+app.post('/good', (req, res) => {
+    const body = req.body;
+    const postnum = body.postnum;
+    connection.query('select * from board_good where postnum = ?', [postnum], (err, rows)=>{
+        if (err) throw err;
+        res.status(200).json(rows);
+    })
+})
+
+// 삭제 요청 처리 API 엔드포인트
+app.post('/diary/delete', (req, res) => {
+    const body = req.body;
+    const id = body.id; // 사용자 ID
+    const postnum = body.postnum; // 일기의 고유 ID (postnum)
+
+    // 해당 일기 데이터를 삭제하는 쿼리를 실행
+    connection.query('DELETE FROM diary WHERE id = ? AND postnum = ?', [id, postnum], (err, result) => {
+        if (err) {
+            console.error('Error deleting diary data:', err);
+            res.status(500).json({ success: false, error: 'Failed to delete diary data' });
+            return;
+        }
+
+        console.log('Diary data deleted:', result.affectedRows);
+        // 삭제 성공 응답 보내기
+        res.status(200).json({ success: true });
+    });
+});
+
+app.post('/update_good', (req, res)=>{
+    const body = req.body;
+    const postnum = body.postnum;
+    const id = body.id;
+    const insert = body.insert;
+    if(insert){
+        //추가
+        connection.query('insert into board_good (postnum, good_id) values(?, ?)', [postnum, id], (err, rows) =>{
+            if(err) throw err;
+            res.status(200).json({insert: true});
+        })
+    }
+    else{
+        //삭제
+        connection.query('delete from board_good where id = ? and postnum = ?', [id, postnum], (err, rows) => {
+            if(err) throw err;
+            res.status(200).json({
+                insert: false
+            });
+        })
+    }
+})

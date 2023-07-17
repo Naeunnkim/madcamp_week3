@@ -17,7 +17,7 @@ html {
 
 #header p {
    font-size: 20px;
-   
+
    margin-top: 50px;
    margin-bottom: 2%;
 
@@ -27,7 +27,10 @@ html {
    width: 500px;
    height: fit-content;
    text-align: center;
-   margin: 110px auto;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
    background: #fff;
    padding: 50px 50px;
    border-radius: 30px;
@@ -47,11 +50,13 @@ html {
    vertical-align: top;
 }
 
-.check, .custom-email, #mail_Select{
+.check,
+.custom-email,
+#mail_Select {
    display: block;
    position: relative;
    width: 50%;
-   height: 30px;  
+   height: 30px;
    border: 1px solid #dadada;
    border-radius: 10px;
    padding-right: 18px;
@@ -95,7 +100,8 @@ html {
    font-size: 13px;
    box-sizing: border-box;
    z-index: 10;
-} 
+}
+
 #duplicate {
    display: inline-block;
    vertical-align: middle;
@@ -124,7 +130,7 @@ html {
 
 .btn_type {
    border: none;
-   width:90px;
+   width: 90px;
    font-family: 'Gowun Dodum', sans-serif;
    font-size: 18px;
    background: #e5e5e5;
@@ -134,7 +140,7 @@ html {
 }
 
 #wrap1 {
-   margin-top:300px;
+   margin-top: 300px;
 }
 
 .list {
@@ -146,8 +152,32 @@ html {
    display: block;
 }
 
-body,button,dd,dl,dt,fieldset,form,h1,h2,h3,h3,h5,h6,input
-legend,li,ol,p,select,option,div,table,label,td,textarea,th,ul {
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h3,
+h5,
+h6,
+input legend,
+li,
+ol,
+p,
+select,
+option,
+div,
+table,
+label,
+td,
+textarea,
+th,
+ul {
    margin: 0;
    padding: 0;
 }

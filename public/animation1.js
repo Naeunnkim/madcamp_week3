@@ -5,10 +5,14 @@ export class Animation1 {
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
         document.body.appendChild(this.canvas);
+        document.body.style.backgroundColor = "#ffffff";
+        document.getElementById('currentTime').style.color='black';
+        document.getElementById('duration').style.color='black';
 
         this.waveGroup = new WaveGroup(
 
         );
+        this.isStopped = false;
 
         window.addEventListener('resize', this.resize.bind(this), false);
         this.resize();
@@ -16,6 +20,10 @@ export class Animation1 {
         //animtaion 시작
         requestAnimationFrame(this.animate.bind(this));
     }
+    stop(){
+        this.isStopped = true;
+    }
+
 
     resize() {
         this.stageWidth = document.body.clientWidth;
@@ -30,6 +38,13 @@ export class Animation1 {
     }
 
     animate(t) {
+
+        if (this.isStopped) {
+            this.isStopped = false;
+            this.canvas.parentNode.removeChild(this.canvas);
+            return; // 애니메이션이 중지된 상태면 animate 함수를 빠져나감
+        }
+
         this.ctx.clearRect(0,0,this.stageWidth, this.stageHeight); //캔버스 클리어
 
         // //애니메이션 업데이트 로직 실행
@@ -45,8 +60,9 @@ export class Animation1 {
     }
 
     
+    
 }
 
-window.onload = () => {
-    new Animation1(); //앱 생성
-}
+// window.onload = () => {
+//     new Animation1(); //앱 생성
+// }

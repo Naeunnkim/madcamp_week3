@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세페이지</title>
+    <script src="https://kit.fontawesome.com/95122cdcc7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/diarydetail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="card" id="post">
+        <div class="card-edit-icons">
+            <a href="writediary"><i class="fas fa-edit"></i></a>
+            <i class="fas fa-trash-alt" id="deleteIcon"></i>
+        </div>
+        <div class="card-body">
+            
+            <img class="emotion-image" id="emotion" alt="Emotion Image">
+            <div class="card-title">DATE
+                <p class="card-text" id="date"></p>
+                <p class="card-text" id="id"></p>
+            </div>
+        </div>
+        <div id="box" class="image-box">
+            <img class="card-img-top" id="photo" alt="Card image cap">
+        </div>
+        <div class="text-container">
+             <p class="card-text" id="text"></p>
+        </div>
+    </div>
+    
+    <script src="/public/diarydetail.js"></script>
+</body>
+
+</html>

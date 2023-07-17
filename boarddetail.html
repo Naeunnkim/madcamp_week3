@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세페이지</title>
+    <script src="https://kit.fontawesome.com/95122cdcc7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/boarddetail.css">
+</head>
+
+<body>
+    <div class="card" id="post">
+        <div class="card-body">
+            <img class="emotion-image" id="emotion" alt="Emotion Image">
+            <div class="card-title">DATE
+                <p class="card-text" id="date"></p>
+                <p class="card-text" id="id"></p>
+            </div>
+        </div>
+        <div id="box" class="image-box">
+            <img class="card-img-top" id="photo" alt="Card image cap">
+        </div>
+        <div class="good">
+            <i id ="good-icon" class="fa-regular fa-thumbs-up fa-lg" style="color: #ff9b65;"></i>
+            <p id="good-count">1</p>
+        </div>
+        <p class="card-text" id="text"></p>
+    </div>
+    <div class = "card" id="comment">
+        <div class = "comments" id="comment-container"></div>
+        <div class = "commentholder" id ="wrtie-comment">
+            <textarea type="text" rows="1" id="put-cmt" minlength="1" maxlength="199" placeholder="댓글 달기" required></textarea>
+            <button id="write">작성</button>
+        </div>
+        
+    </div>
+    <script src="/public/boarddetail.js"></script>
+</body>
+
+</html>

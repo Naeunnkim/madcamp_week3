@@ -9,7 +9,6 @@
 body {
     margin : 0;
     font-family: 'Gowun Dodum', sans-serif;
-    /* font-family: 'Source Sans Pro'; */
 }
 a {
     text-decoration: none;
@@ -130,14 +129,17 @@ main {
 }
 
 .grid-container {
+    margin-left: 20px;
+    margin-right: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 10px;
+    grid-gap: 30px;
     width: 100%;
-    place-items: center;
-    align-items:start;
-    grid-auto-rows: minmax(100px, auto);
-    grid-auto-flow: dense;    
+    justify-content: center;
+    /* place-items: start; */
+    /* align-items: center; */
+    /* grid-auto-rows: minmax(100px, auto); */
+    grid-auto-flow: dense;
 }
 
 .card-columns {
@@ -148,28 +150,16 @@ main {
      */
 }
 
-.card-columns .card:nth-child(-n+3) {
-    align-self: start;
-}
-
-.card-columns .card:nth-child(n+4) {
-    align-self: baseline;
-}
-
-.card {
-    /* flex: 0 0 calc(33.33% - 20px); /* 한 행에 3개씩 배치하도록 설정하고 간격을 고려
-  border: 1px solid #000;
-  padding: 10px;
-  margin: 5px; */
-
-    /* break-inside: avoid; */
-    
+.card {    
     height: fit-content;
     display: inline-block;
     width: 80%;
     border: 1px solid #000;
     padding: 10px;
     margin: 15px;
+    background-color: #ffffff;
+    border: 1px solid rgb(163, 163, 163);
+    border-radius: 13px;
 }
 hr {
     width: 70%;
@@ -180,8 +170,11 @@ hr {
 }
 
 .image-box {
-    width: 300px;
-    height: 300px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 250px;
     overflow: hidden;
 }
 

@@ -96,8 +96,7 @@ app.get('/posts', (req, res) => {
     connection.query(`SELECT a.*, COALESCE(b.good, 0) AS good
         FROM (SELECT *
             FROM dashboard
-            NATURAL JOIN diary
-            ORDER BY date DESC) a
+            NATURAL JOIN diary order by postnum) a
         LEFT JOIN (SELECT postnum, COUNT(*) AS good
                FROM dashboard
                NATURAL JOIN board_good
@@ -109,7 +108,20 @@ app.get('/posts', (req, res) => {
 })
 
 app.get('/graph', (req, res) => {
-    connection.query('SELECT emotion, COUNT(*) AS count FROM diary  GROUP BY emotion order by emotion', (err, result) => {
+    connection.query(`SELECT e.emotion, COALESCE(d.count, 0) AS count
+    FROM (
+      SELECT 1 AS emotion UNION ALL
+      SELECT 2 AS emotion UNION ALL
+      SELECT 3 AS emotion UNION ALL
+      SELECT 4 AS emotion UNION ALL
+      SELECT 5 AS emotion
+    ) AS e
+    LEFT JOIN (
+      SELECT emotion, COUNT(*) AS count
+      FROM diary
+      GROUP BY emotion
+    ) AS d ON e.emotion = d.emotion
+    ORDER BY e.emotion`, (err, result) => {
         res.status(200).json({
             cnt1: result[0].count,
             cnt2: result[1].count,
@@ -122,16 +134,44 @@ app.get('/graph', (req, res) => {
 
 app.post('/signup', (req, res) => {
     const body = req.body;
-    console.log(body);
     const id = body.id;
     const pw = body.pw;
     const phoneNum = body.phoneNum;
     const email = body.email;
     const name = body.name;
-    if (id != null) {
-        connection.query('insert into user_info (id, pw, name, tel, email) values (?, ?, ?, ?, ?)', [id, pw, name, phoneNum, email]);
-    }
-    res.send('end');
+    connection.query('select * from user_info where tel = ?', [phoneNum], (err, row) => {
+        if (row.length > 0) {
+            //이미 가입된 전화번호
+            res.status(200).json({
+                success: false
+            });
+        }
+        else {
+            connection.query('insert into user_info (id, pw, name, tel, email) values (?, ?, ?, ?, ?)', [id, pw, name, phoneNum, email]);
+            res.status(200).json({
+                success: true
+            });
+        }
+    })
+})
+
+//아이디 중복체크
+app.post('/signup/duplicate', (req, res) => {
+    const body = req.body;
+    const id = body.id;
+    connection.query('select * from user_info where id = ?', [id], (err, rows) => {
+        if (rows.length > 0) {
+            //아이디 중복
+            res.status(200).json({
+                success: false
+            })
+        }
+        else {
+            res.status(200).json({
+                success: true
+            })
+        }
+    })
 })
 
 app.post('/login', (req, res) => {
@@ -217,12 +257,40 @@ app.post('/submit', (req, res) => {
         else {
             if (check) {
                 console.log("글 수정");
-                connection.query('update diary set emotion = ?, photo = ?, text = ? where id = ? and date = ?', [emotion, photo, text, id, date], (err, rows)=>{
-                    res.status(200).json({
-                        success: true,
-                        edit: true
-                    })
-                })
+                connection.query('select postnum from diary where id=? and date=?', [id, date], (err1, rows1) => {
+                    if (err1) throw err1;
+                    const postnum = rows1[0].postnum;
+                    if (board === 0) {
+                        connection.query('delete from dashboard where postnum = ?', [postnum]);
+                        connection.query('update diary set emotion = ?, photo = ?, text = ? where id = ? and date = ?', [emotion, photo, text, id, date], (err, rows) => {
+                            res.status(200).json({
+                                success: true,
+                                edit: true
+                            });
+                        })
+                    }
+                    else {
+                        connection.query('select * from dashboard where postnum = ?', [postnum], (err, result) => {
+                            if (err) throw err;
+                            if (result.length == 0) {
+                                connection.query('insert into dashboard (postnum) values (?)', [postnum]);
+                                connection.query('update diary set emotion = ?, photo = ?, text = ? where id = ? and date = ?', [emotion, photo, text, id, date], (err, rows) => {
+                                    res.status(200).json({
+                                        success: true,
+                                        edit: true
+                                    });
+                                })
+                            } else {
+                                connection.query('update diary set emotion = ?, photo = ?, text = ? where id = ? and date = ?', [emotion, photo, text, id, date], (err, rows) => {
+                                    res.status(200).json({
+                                        success: true,
+                                        edit: true
+                                    });
+                                })
+                            }
+                        })
+                    }
+                });
             }
             else {
                 console.log("이미 일기 작성함");
@@ -254,7 +322,7 @@ app.post('/upload', (req, res) => {
 app.post('/diary', (req, res) => {
     const body = req.body;
     const id = body.id;
-    connection.query('select * from diary where id = ? order by date desc', [id], (err, rows) => {
+    connection.query('select a.*, b.postnum as onboard from diary a left join dashboard b on a.postnum = b.postnum where id = ? order by date desc', [id], (err, rows) => {
         console.log('다이어리 데이터 전송 성공');
         // console.log(rows);
         res.status(200).json(rows);
@@ -278,7 +346,10 @@ app.post('/profile', (req, res) => {
 app.post('/boarddetail', (req, res) => {
     const body = req.body;
     const postnum = body.postnum;
-    connection.query('select * from comment where postnum = ?', [postnum], (err, rows) => {
+    connection.query(`select a.*, coalesce (b.good, 0) as good
+        from (select * from comment where postnum = ?) a
+            left join (select commentnum, count(*) as good from comment_good group by commentnum) b
+            on a.commentnum = b.commentnum order by a.datetime`, [postnum], (err, rows) => {
         if (err) throw err;
         res.status(200).json(rows);
     })
@@ -296,13 +367,32 @@ app.post('/wcomment', (req, res) => {
     })
 })
 
+app.post('/wcomment/delete', (req, res) => {
+    const body = req.body;
+    const commentnum = body.commentnum;
+    connection.query('delete from comment where commentnum = ?', [commentnum], (err, rows) =>{
+        if(err) throw err;
+        res.status(200).json({success: true});
+    })
+})
+
 app.post('/good', (req, res) => {
     const body = req.body;
     const postnum = body.postnum;
-    connection.query('select * from board_good where postnum = ?', [postnum], (err, rows)=>{
+    connection.query('select * from board_good where postnum = ?', [postnum], (err, rows) => {
         if (err) throw err;
         res.status(200).json(rows);
     })
+})
+
+app.post('/good/comment', (req, res) => {
+    const body = req.body;
+    const id = body.id;
+    const postnum = body.postnum;
+    connection.query('select commentnum from comment natural join comment_good where good_id = ? and postnum = ?', [id, postnum], (err, rows) => {
+        if (err) throw err;
+        res.status(200).json(rows);
+    });
 })
 
 // 삭제 요청 처리 API 엔드포인트
@@ -325,25 +415,67 @@ app.post('/diary/delete', (req, res) => {
     });
 });
 
-app.post('/update_good', (req, res)=>{
+app.post('/update_good', (req, res) => {
     const body = req.body;
     const postnum = body.postnum;
     const id = body.id;
     const insert = body.insert;
-    if(insert){
+    if (insert) {
         //추가
-        connection.query('insert into board_good (postnum, good_id) values(?, ?)', [postnum, id], (err, rows) =>{
-            if(err) throw err;
-            res.status(200).json({insert: true});
+        connection.query('insert into board_good (postnum, good_id) values(?, ?)', [postnum, id], (err, rows) => {
+            if (err) throw err;
+            res.status(200).json({ insert: true });
         })
     }
-    else{
+    else {
         //삭제
-        connection.query('delete from board_good where id = ? and postnum = ?', [id, postnum], (err, rows) => {
-            if(err) throw err;
+        connection.query('delete from board_good where good_id = ? and postnum = ?', [id, postnum], (err, rows) => {
+            if (err) throw err;
             res.status(200).json({
                 insert: false
             });
         })
     }
+})
+
+app.post('/update_good/comment', (req, res) => {
+    const body = req.body;
+    const commentnum = body.commentnum;
+    const id = body.id;
+    const insert = body.insert;
+    if (insert) {
+        //추가
+        console.log('댓글 좋아요 추가');
+        connection.query('insert into comment_good (commentnum, good_id) values (?, ?)', [commentnum, id], (err, rows) => {
+            if (err) throw err;
+        });
+    }
+    else {
+        console.log('댓글 좋아요 삭제');
+        connection.query('delete from comment_good where good_id = ? and commentnum = ?', [id, commentnum], (err, rows) => {
+            if (err) throw err;
+        });
+    }
+})
+
+app.post('/main/monthly', (req, res) => {
+    const body = req.body;
+    const id = body.id;
+    const year = body.year;
+    const month = body.month;
+    connection.query('select date, emotion from diary where id = ? and month(date) = ? and year(date) = ? order by date', [id, month, year], (err, rows) => {
+        if (err) throw err;
+        console.log('한달 감정');
+        res.status(200).json(rows);
+    });
+})
+
+app.post('/remove', (req, res) => {
+    const body = req.body;
+    const id = body.id;
+    connection.query('delete from user_info where id = ?', [id], (err, rows) => {
+        if(err) throw err;
+        console.log('회원 탈퇴 성공');
+        res.status(200).json({success: true});
+    });
 })

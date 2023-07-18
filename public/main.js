@@ -3,34 +3,56 @@ let today = new Date();
 let currentDay = today.getDate();
 let currentMonth = today.getMonth(); // 현재 날짜의 월로 설정
 let currentYear = today.getFullYear();
-
 let filteredData = [];
 
+const myid = localStorage.getItem('id');
+
 function fetchDiaryDataFromServer() {
-    fetch('/diary', {
+    return fetch('/main/monthly', {
         method: 'POST',
         headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({ id: myid, month: currentMonth+1, year: currentYear })
     })
         .then(response => response.json())
         .then(data => {
-            filteredData = data.map(item => ({
-                date: item.date,
-                emotion: item.emotion
-            }));
-            updateCalendar(currentYear, currentMonth);
+            data.forEach(item => {
+                filteredData.push({ date: item.date.substring(0, 10), emotion: item.emotion });
+            })
+            // if(data.success && data.data) {
+            //     filteredData = [{date: data.data.date, emotion: data.data.emotion}];
+            // }
+            // else {
+            //     filteredData=[];
+            // }
         })
         .catch(error => {
             console.error(error);
         });
-    
+
 }
 
 //감정 데이터를 표시하는 함수
 function renderEmotionImage(cell, emotion) {
-    const emotionImage = document.createElement('img');
+    // console.log("renderemotionimage called");
+    const existingImage = cell.querySelector('.emotion-image');
+    if (existingImage && existingImage.parentElement === cell) {
+        cell.removeChild(existingImage);
+    }
+
+    // 이미 숫자가 있는 경우 숫자를 제거
+    if (cell.textContent.trim() !== '') {
+        cell.textContent = '';
+    }
+
+
+
+    //이미지를 담을 div 엘리먼트 생성
+    const imageBox = document.createElement('div');
+    imageBox.className = 'image-box';
+
+    const emotionImage = new Image();
     emotionImage.className = 'emotion-image';
     switch (emotion) {
         case 1:
@@ -57,12 +79,14 @@ function renderEmotionImage(cell, emotion) {
     emotionImage.style.display = 'block';
     emotionImage.style.margin = 'auto';
 
-    // 이미지를 담을 div 엘리먼트 생성
-    const imageBox = document.createElement('div');
-    imageBox.className = 'image-box';
     imageBox.appendChild(emotionImage);
 
-    cell.appendChild(emotionImage);
+    const prevEmotionImage = cell.querySelector('.emotion-image');
+    if (prevEmotionImage) {
+        cell.removeChild(prevEmotionImage);
+    }
+
+    cell.appendChild(imageBox);
 }
 
 const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -75,6 +99,25 @@ if (currentYear % 400 == 0 || (currentYear % 100 != 0 && currentYear % 4 == 0)) 
 // 달력 월의 첫 날과 마지막 날 구하기
 const monthStartDay = new Date(currentYear, currentMonth, 1).getDay();
 const monthLastDate = monthDays[currentMonth];
+
+function handleCellClick(cell, date) {
+    //이전 선택된 셀에 있던 .selected 클래스를 제거
+    const prevSelectedCell = document.querySelector('.selected');
+    if (prevSelectedCell) {
+        prevSelectedCell.classList.remove('selected');
+    }
+
+    //선택된 셀에 .selected 클래스를 추가하여 스타일링
+    cell.classList.add('selected');
+
+    //선택한 날짜에 해당하는 감정 데이터를 filteredData에서 찾기
+    const selectedDiaryItem = filteredData.find(item => item.date === date);
+
+    //감정 데이터가 존재하는 경우 해당 날짜 셀에 감정 아이콘 표시
+    if (selectedDiaryItem && selectedDiaryItem.emotion) {
+        renderEmotionImage(cell, selectedDiaryItem.emotion);
+    }
+}
 
 function renderCalendar(year, month) {
 
@@ -96,7 +139,7 @@ function renderCalendar(year, month) {
     }
     thead.appendChild(headerRow);
     table.appendChild(thead);
-    
+
     //테이블 내용
     let date = 1;
     for (let i = 0; i < 6; i++) {
@@ -116,38 +159,46 @@ function renderCalendar(year, month) {
                 const today = new Date();
                 const currentYear = today.getFullYear();
                 const currentMonth = today.getMonth();
-                
+
                 if (date === today.getDate() && month === currentMonth && year === currentYear) {
                     cell.classList.add('today');
                 }
 
                 cell.addEventListener('click', () => {
-                    const selectedCell = document.querySelector('.selected');
-                    if (selectedCell) {
-                        selectedCell.classList.remove('selected');
-                    }
-                    cell.classList.add('selected');
+                    handleCellClick(cell, cell.dataset.date);
                 });
 
                 date++;
             }
         }
         tbody.appendChild(row);
-
         table.appendChild(tbody);
 
         const calendarElement = document.getElementById('calendar');
         calendarElement.innerHTML = '';
         calendarElement.appendChild(table);
 
-        const cells = document.querySelectorAll('.calendar td');
-        cells.forEach(cell => {
-            const cellDate = cell.dataset.date;
-            const diaryItem = filteredData.find(item => item.date === cellDate);
-            if (diaryItem && diaryItem.emotion) {
-                renderEmotionImage(cell, diaryItem.emotion);
-            }
-        });
+        // 날짜 셀들을 다시 선택하고, 각 셀에 이미지를 표시합니다.
+
+        fetchDiaryDataFromServer()
+            .then(() => {
+                const cells = document.querySelectorAll('.calendar td');
+                cells.forEach(cell => {
+                    const currentMonthFormatted = (currentMonth + 1).toString().padStart(2, '0');
+                    const cellTextFormatted = cell.textContent.padStart(2, '0');
+                    const cellDate = currentYear + '-' + currentMonthFormatted + '-' + cellTextFormatted;
+                    // console.log(cellDate);
+                    const diaryItem = filteredData.find(item => item.date === cellDate);
+                    if (diaryItem) {
+                        const emotion = diaryItem.emotion;
+                        renderEmotionImage(cell, parseInt(emotion));
+                    } else {
+                        // 감정 데이터가 없는 경우에도 기본 이미지를 표시할 수 있습니다.
+                        // console.log("error");
+                    }
+                });
+            });
+
     }
 }
 

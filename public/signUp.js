@@ -1,6 +1,9 @@
 // 필요한 요소 선택
 const mailSelect = document.getElementById("mail_Select");
 const customEmailInput = document.getElementById("domain-input");
+const idDuplicate = document.getElementById('duplicate');
+const joinButton = document.getElementById('btnJoin');
+var dupcheck = false;
 
 // 이벤트 리스너 등록
 mailSelect.addEventListener("change", function () {
@@ -13,6 +16,29 @@ mailSelect.addEventListener("change", function () {
         customEmailInput.value = selectedOption;
     }
 });
+
+idDuplicate.addEventListener('click', function (event) {
+    event.preventDefault();
+    const inputid = document.getElementById('id').value;
+    console.log(inputid);
+    fetch('/signup/duplicate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: inputid })
+    }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("사용 가능한 아이디입니다.");
+                dupcheck = true;
+            }
+            else {
+                alert("이미 사용 중인 아이디입니다.");
+                dupcheck = false;
+            }
+        })
+})
 
 //회원가입 유효성검사
 // 자원을 화면에 로드하게 되면 수행할 동작(==function)
@@ -83,7 +109,11 @@ window.onload = function () {
         }
     }
     //submit 실행시 수행할 동작
-    join.onsubmit = function () { //join에서 submit이 실행된다면 수행할 함수           
+    // joinButton.addEventListener('click', function{
+
+    // })
+    join.onsubmit = function (event) { //join에서 submit이 실행된다면 수행할 함수           
+        event.preventDefault();
         var errorStr = [" 아이디를", " 비밀번호를", " 비밀번호 확인을", " 성함을", " 휴대폰번호를", " 이메일을"];
 
         innerReset(error); // 오류문구 초기화
@@ -155,6 +185,11 @@ window.onload = function () {
             return false;
         }
 
+        if (!dupcheck) {
+            alert('아이디 중복 확인 후 회원가입이 가능합니다.');
+            return false;
+        }
+
         var email;
         if (join.email.value.trim() !== "") {
             email = join.email.value + "@" + join['domain-input'].value;
@@ -179,11 +214,16 @@ window.onload = function () {
                 },
                 body: JSON.stringify(data)
             })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
-                    console.log(data); // 서버 응답 출력
-                    alert('회원가입이 완료되었습니다.'); // 성공 메시지 표시
-                    window.location.href = "http://172.10.5.163/login";
+                    if (data.success) {
+                        alert('회원가입이 완료되었습니다.');
+                        window.location.href = "http://172.10.5.163/login";
+                    }
+                    else {
+                        alert("이미 가입된 전화번호입니다.");
+                    }
+
                 })
                 .catch(error => {
                     console.error(error);

@@ -1,6 +1,7 @@
 // 필요한 요소 선택
 const mailSelect = document.getElementById("mail_Select");
 const customEmailInput = document.getElementById("domain-input");
+const removeButton = document.getElementById("remove"); //탈퇴하기버튼
 const id = localStorage.getItem("id");
 
 // 이벤트 리스너 등록
@@ -74,7 +75,7 @@ window.onload = function () {
     }
     //submit 실행시 수행할 동작
     edit.onsubmit = function (event) { //edit에서 submit이 실행된다면 수행할 함수   
-        event.preventDefault();         
+        event.preventDefault();
         var errorStr = [" 비밀번호를", " 비밀번호 확인을", " 성함을", " 휴대폰번호를"];
 
         innerReset(error); // 오류문구 초기화
@@ -173,5 +174,31 @@ window.onload = function () {
 
 if (id) {
     const myIdElement = document.getElementById("my-id");
-    myIdElement.textContent = " "+id;
+    myIdElement.textContent = " " + id;
+}
+
+function openModal() {
+    document.getElementById("myModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+}
+
+function remove() {
+    document.getElementById("myModal").style.display = "none";
+    fetch('/remove', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: id})
+    }).then(response=>response.json())
+    .then(data => {
+        if(data.success){
+            alert("탈퇴 처리가 완료되었습니다. 다음에 다시 만나요 :)");
+            localStorage.clear();
+            location.href = '/main';
+        }
+    })
 }

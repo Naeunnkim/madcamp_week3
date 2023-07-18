@@ -5,27 +5,31 @@ const today = new Date().toISOString().split('T')[0];
 dateInput.max = today;
 
 //처음 쓰는 글이면 false, 수정이면 true
-var isEdit=false;
+var isEdit = false;
 
-document.addEventListener('DOMContentLoaded', ()  => {
+document.addEventListener('DOMContentLoaded', () => {
     const date = localStorage.getItem('date');
     const formdate = date.split('T')[0];
     const emotion = localStorage.getItem('emotion');
     const text = localStorage.getItem('text');
     const image = localStorage.getItem('image');
-    localStorage.removeItem('date');
-    localStorage.removeItem('emotion');
-    localStorage.removeItem('text');
-    localStorage.removeItem('image');
+    const onboard = localStorage.getItem('onboard');
 
-    document.getElementById('dateInput').value=formdate;
-    document.getElementById('textInput').value=text;
+    document.getElementById('dateInput').value = formdate;
+    document.getElementById('textInput').value= text;
+    console.log(onboard);
+    if (onboard !== "null") {
+        document.getElementById('postonboard').checked = true;
+    } else {
+        document.getElementById('postonboard').checked = false;
+    }
+
 
     const emotionInput = document.getElementById('emotionInput');
     emotionInput.value = parseInt(emotion);
 
-    if(date!==null) {
-        isEdit=true;
+    if (date !== null) {
+        isEdit = true;
         alert('글 수정 시 이전 사진이 유지 되지 않습니다.\n사진 유지를 원할 시 같은 사진을 다시 업로드 해주세요.');
     }
 })
@@ -94,7 +98,14 @@ document.getElementById('diaryForm').addEventListener('click', (event) => {
                         console.log(data.success);
                         if (data.success) {
                             window.location.href = 'diary';
-                            if(data.edit) {
+                            if (data.edit) {
+                                localStorage.removeItem("writerid");
+                                localStorage.removeItem("date");
+                                localStorage.removeItem("emotion");
+                                localStorage.removeItem("image");
+                                localStorage.removeItem("text");
+                                localStorage.removeItem("postnum");
+                                localStorage.removeItem('onboard');
                                 alert("수정이 완료되었습니다")
                             }
                         }
@@ -122,7 +133,7 @@ document.getElementById('diaryForm').addEventListener('click', (event) => {
             check: isEdit
 
         }
-        
+
         fetch('/submit', {
             method: 'POST',
             headers: {
@@ -134,6 +145,13 @@ document.getElementById('diaryForm').addEventListener('click', (event) => {
             .then((data) => {
                 console.log(data);
                 if (data.success) {
+                    localStorage.removeItem("writerid");
+                    localStorage.removeItem("date");
+                    localStorage.removeItem("emotion");
+                    localStorage.removeItem("image");
+                    localStorage.removeItem("text");
+                    localStorage.removeItem("postnum");
+                    localStorage.removeItem('onboard');
                     window.location.href = 'diary';
                 }
                 else {

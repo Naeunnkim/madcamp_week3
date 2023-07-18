@@ -52,7 +52,7 @@ export class Animation1 {
         //     requestAnimationFrame(this.animate.bind(this));
         // }, 1000 / 30);
         this.waveGroup.draw(this.ctx);
-        const interval = 1000 / 30;
+        const interval = 1000 / 20;
 
         setTimeout(() => {
             requestAnimationFrame(this.animate.bind(this));

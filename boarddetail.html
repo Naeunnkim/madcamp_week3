@@ -10,7 +10,19 @@
 </head>
 
 <body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>댓글을 삭제하시겠습니까?</p>
+            <div class="btn_area">
+                <button class="btn_type" onclick="remove()">확인</button>
+                <button class="btn_type" onclick="closeModal()">취소</button>    
+            </div>
+        </div>
+    </div>
     <div class="card" id="post">
+        <div class="board-edit-icon">
+            <a href="writediary"><i class="fas fa-edit"></i></a>
+        </div>
         <div class="card-body">
             <img class="emotion-image" id="emotion" alt="Emotion Image">
             <div class="card-title">DATE

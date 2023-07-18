@@ -84,13 +84,14 @@ canvas {
     display: flex;
     justify-content: center; /* 수평 방향 가운데 정렬 */
     align-items: center; /* 수직 방향 가운데 정렬 */
+    color: #808080;
 
   }
   
   .tabbutton button {
     margin: 5px; /* 필요에 따라 조정 */
     border: none;
-    color: #fff;
+    background-color: #aeaeae;
     border-radius: 50%;
     width: 15px;
     height: 15px;
@@ -99,6 +100,18 @@ canvas {
   .tabbutton button:hover {
     background-color: #f8e281; /* 커서가 올라갈 때 배경색 변경 */
   }
+
+  #tab1:hover {
+    background-color: #fffffb;
+}
+
+#tab2:hover {
+    background-color: #384c79;
+}
+
+#tab3:hover {
+    background-color: #ffe9ec;
+}
 
   main {
     padding-top: 20px;

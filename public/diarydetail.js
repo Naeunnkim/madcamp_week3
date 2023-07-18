@@ -43,7 +43,7 @@ fetch('/diary', {
             title.appendChild(datetime);
 
             const text = document.createElement('p');
-            text.textContent = item.text;
+            text.innerHTML = item.text.replace(/\n/g, '<br>');
             ccard.appendChild(text);
 
             container.appendChild(ccard);
@@ -55,33 +55,33 @@ fetch('/diary', {
 
 
 idItem.textContent = id;
-        dateItem.textContent = date.substring(0, 10);
-        if (photo == "null") {
-            imageboxItem.style.display = 'none';
-        }
-        
-        switch (parseInt(emotion)) {
-            case 1:
-                emotionItem.src = '/public/image/1.png';
-                break;
-            case 2:
-                emotionItem.src = '/public/image/2.png';
-                break;
-            case 3:
-                emotionItem.src = '/public/image/3.png';
-                break;
-            case 4:
-                emotionItem.src = '/public/image/4.png';
-                break;
-            case 5:
-                emotionItem.src = '/public/image/5.png';
-                break;
-            default:
-                break;
-        }
+dateItem.textContent = date.substring(0, 10);
+if (photo == "null") {
+    imageboxItem.style.display = 'none';
+}
+
+switch (parseInt(emotion)) {
+    case 1:
+        emotionItem.src = '/public/image/1.png';
+        break;
+    case 2:
+        emotionItem.src = '/public/image/2.png';
+        break;
+    case 3:
+        emotionItem.src = '/public/image/3.png';
+        break;
+    case 4:
+        emotionItem.src = '/public/image/4.png';
+        break;
+    case 5:
+        emotionItem.src = '/public/image/5.png';
+        break;
+    default:
+        break;
+}
 
 photoItem.src = photo;
-textItem.textContent = text;
+textItem.innerHTML = text.replace(/\n/g, '<br>');
 
 // 삭제 버튼을 클릭하면 해당 일기 데이터를 삭제 요청
 function deleteDiaryData() {
@@ -97,26 +97,78 @@ function deleteDiaryData() {
             },
             body: JSON.stringify({ id, postnum })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // 삭제 성공 시, 목록 페이지로 이동
-                window.location.href = '/diary';
-            } else {
-                console.error('Failed to delete diary data.');
-            }
-        })
-        .catch(error => {
-            console.error('Error while deleting diary data:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 삭제 성공 시, 목록 페이지로 이동
+                    // window.location.href = '/diary';
+                } else {
+                    console.error('Failed to delete diary data.');
+                }
+            })
+            .catch(error => {
+                console.error('Error while deleting diary data:', error);
+            });
     } else {
         console.error('Diary ID or user ID not found.');
     }
 }
 
 const deleteButton = document.getElementById('deleteIcon');
-deleteButton.addEventListener('click', function () {
-    console.log("check");
-    deleteDiaryData();
-});
+// deleteButton.addEventListener('click', function () {
+//     console.log("check");
+//     deleteDiaryData();
+// });
 
+function openModal() {
+    document.getElementById("myModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+}
+
+function remove() {
+    document.getElementById("myModal").style.display = "none";
+    if (id && postnum) {
+        fetch('/diary/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id, postnum })
+        }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.removeItem("writerid");
+                    localStorage.removeItem("date");
+                    localStorage.removeItem("emotion");
+                    localStorage.removeItem("image");
+                    localStorage.removeItem("text");
+                    localStorage.removeItem("postnum");
+                    localStorage.removeItem("gcount");
+
+                    alert("일기가 삭제되었습니다");
+                    location.href = '/diary';
+                } else {
+                    console.error('Failed to delete diary data');
+                }
+            })
+            .catch(error => {
+                console.error('Error while deleting diary data:', error);
+            });
+    } else {
+        console.error('Diary ID or user ID not found.');
+    }
+
+}
+
+window.addEventListener('popstate', function () {
+    localStorage.removeItem("writerid");
+    localStorage.removeItem("date");
+    localStorage.removeItem("emotion");
+    localStorage.removeItem("image");
+    localStorage.removeItem("text");
+    localStorage.removeItem("postnum");
+    localStorage.removeItem("gcount");
+})

@@ -1,4 +1,10 @@
 const cardbox = document.getElementById('cards-box');
+const id1 = localStorage.getItem("id");
+
+var data = {
+    id: id1
+}
+
 
 //윗줄 끝선에 맞춰 정렬
 function alignToBaseline() {
@@ -104,14 +110,17 @@ fetch('/posts')
 
             const textParagraph = document.createElement('p');
             textParagraph.className = 'card-text';
-            textParagraph.textContent = item.text;
+            textParagraph.innerHTML = item.text.replace(/\n/g, '<br>');
             cardBody.appendChild(textParagraph);
 
             cardbox.appendChild(postElement);
 
             postElement.addEventListener('click', () => {
                 
-                localStorage.setItem('gcount', item.good);
+                const gcount = localStorage.getItem('gcount'+item.postnum);
+                if(gcount===null){
+                    localStorage.setItem('gcount'+item.postnum, item.good);
+                }
                 localStorage.setItem('postnum', item.postnum);
                 localStorage.setItem('writerid', item.id);
                 localStorage.setItem('date', item.date);
@@ -126,13 +135,35 @@ fetch('/posts')
         console.error(error);
     });
 
-    function alignCardsToBaseline() {
-        // 약간의 딜레이를 주고, 렌더링이 완료된 후에 카드 정렬 실행
-        setTimeout(alignToBaseline, 100);
+if(id1===null) {
+    const writediaryButton = document.getElementById('btn-post-box');
+    writediaryButton.style.display = 'none';
+}
+
+function alignCardsToBaseline() {
+    // 약간의 딜레이를 주고, 렌더링이 완료된 후에 카드 정렬 실행
+    setTimeout(alignToBaseline, 100);
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    alignCardsToBaseline();
+    const check = localStorage.getItem('check');
+    if (check) {
+        localStorage.removeItem('check');
+        location.reload(true);
     }
-    
-
-document.addEventListener('DOMContentLoaded', alignCardsToBaseline);
-// window.addEventListener('resize', alignCardsToBaseline);
-
-
+});
+// window.dladdEventListener('resize', alignCardsToBaseline);
+const postBox = document.getElementById('btn-post-box');
+postBox.addEventListener('click', function() {
+    localStorage.removeItem("date");
+    localStorage.removeItem("emotion");
+    localStorage.removeItem("image");
+    localStorage.removeItem("text");
+    localStorage.removeItem('writerid');
+    localStorage.removeItem('postnum');
+    localStorage.removeItem('gcount');
+    localStorage.removeItem('onboard');
+    window.location.href = '/writediary';
+})

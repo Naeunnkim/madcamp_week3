@@ -11,10 +11,19 @@
 </head>
 
 <body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>일기를 삭제합니다.</p>
+            <div class="btn_area">
+                <button class="btn_type" onclick="remove()">삭제</button>
+                <button class="btn_type" onclick="closeModal()">취소</button>    
+            </div>
+        </div>
+    </div>
     <div class="card" id="post">
         <div class="card-edit-icons">
             <a href="writediary"><i class="fas fa-edit"></i></a>
-            <i class="fas fa-trash-alt" id="deleteIcon"></i>
+            <i class="fas fa-trash-alt" id="deleteIcon" onclick="openModal()"></i>
         </div>
         <div class="card-body">
             

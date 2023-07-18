@@ -1,4 +1,6 @@
 const cardbox = document.getElementById('cards-box');
+const idnullcardbox = document.getElementById('idnull-cards-box');
+const postBox = document.getElementById('btn-post-box');
 const id1 = localStorage.getItem("id");
 
 var data = {
@@ -12,18 +14,17 @@ function alignToBaseline() {
     const spacing = 20; // 카드 사이의 간격
 
     const containerWidth = cardbox.offsetWidth;
-    const cardsPerRow = Math.floor((containerWidth)/ (cardWidth + spacing));
+    const cardsPerRow = Math.floor((containerWidth) / (cardWidth + spacing));
 
 
     for (let i = cardsPerRow; i < cardElements.length; i++) {
         const prevBaseline = cardElements[i - cardsPerRow].getBoundingClientRect().bottom;
         const currentTop = cardElements[i].getBoundingClientRect().top;
-        const verticalOffset = prevBaseline - currentTop+50;
+        const verticalOffset = prevBaseline - currentTop + 50;
         // console.log(currentTop);
         cardElements[i].style.marginTop = verticalOffset + 'px';
     }
 }
-
 
 fetch('/diary', {
     method: 'POST',
@@ -87,7 +88,7 @@ fetch('/diary', {
             // 텍스트 표시
             const textParagraph = document.createElement('p');
             textParagraph.className = 'card-text';
-            textParagraph.textContent = item.text;
+            textParagraph.innerHTML = item.text.replace(/\n/g, '<br>');
             cardBody.appendChild(textParagraph);
 
             cardbox.appendChild(postElement);
@@ -102,6 +103,7 @@ fetch('/diary', {
                 localStorage.removeItem('writerid');
                 localStorage.removeItem('postnum');
                 localStorage.removeItem('gcount');
+                localStorage.removeItem('onboard');
                 localStorage.setItem('gcount', item.good);
                 localStorage.setItem('postnum', item.postnum);
                 localStorage.setItem('writerid', item.id);
@@ -109,16 +111,42 @@ fetch('/diary', {
                 localStorage.setItem('image', item.photo);
                 localStorage.setItem('text', item.text);
                 localStorage.setItem('emotion', item.emotion);
+                localStorage.setItem('onboard', item.onboard);
                 window.location.href = '/diarydetail';
             });
-            
+
         });
     })
     .catch(error => {
         console.error(error);
     });
 
-    
+if (id1 === null) {
+    const writediaryButton = document.getElementById('btn-post-box');
+    writediaryButton.style.display = 'none';
+
+    const logoImage = document.createElement('img');
+    logoImage.className = 'diary-logo-image';
+    logoImage.src = '/public/image/navbarlogo.png'
+    logoImage.style.width = '250px';
+    logoImage.style.height = '250px';
+
+    const text = document.createElement('p');
+    text.textContent = "글을 작성하려면 회원가입을 해야해요!";
+
+    const signInItem = document.createElement('p');
+    const signInLink = document.createElement('a');
+    signInLink.href = 'signup';
+    signInLink.id = 'signup-link'
+    signInLink.textContent = 'MoodRecord 회원가입 하러가기';
+    signInItem.appendChild(signInLink);
+
+    idnullcardbox.appendChild(logoImage);
+    idnullcardbox.appendChild(text);
+    idnullcardbox.appendChild(signInItem);
+}
+
+
 
 function alignCardsToBaseline() {
     // 약간의 딜레이를 주고, 렌더링이 완료된 후에 카드 정렬 실행
@@ -126,5 +154,19 @@ function alignCardsToBaseline() {
 }
 
 // DOMContentLoaded 이벤트 발생 시, 카드 정렬 함수 실행
-document.addEventListener('DOMContentLoaded', alignCardsToBaseline);
+document.addEventListener('DOMContentLoaded', function () {
+    alignCardsToBaseline();
+});
 window.addEventListener('resize', alignCardsToBaseline);
+
+postBox.addEventListener('click', function() {
+    localStorage.removeItem("date");
+    localStorage.removeItem("emotion");
+    localStorage.removeItem("image");
+    localStorage.removeItem("text");
+    localStorage.removeItem('writerid');
+    localStorage.removeItem('postnum');
+    localStorage.removeItem('gcount');
+    localStorage.removeItem('onboard');
+    window.location.href = '/writediary';
+})

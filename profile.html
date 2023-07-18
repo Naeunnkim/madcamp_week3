@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="kr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로필</title>
     <link rel="stylesheet" type="text/css" href="/public/css/signup.css">
 </head>
+
 <body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <img src = "/public/image/remove_logo.png" width="90px" height="90px">
+            <p>회원 탈퇴 시 작성한 일기가 모두 사라집니다.<br>그래도 탈퇴하시겠습니까?</p>
+            <div class="btn_area">
+                <button class="btn_type" onclick="remove()">탈퇴</button>
+                <button class="btn_type" onclick="closeModal()">취소</button>    
+            </div>
+        </div>
+    </div>
     <div id="wrap2" class="wrapper">
         <form method="post" name="edit" id="edit">
             <header>
@@ -23,22 +35,26 @@
                         <h3 class="list">아이디</h3><span id="my-id" style="font-weight: 600; margin-left: 15px;"></span>
                     </div>
                     <div class="userInput">
-                        <h3 class="list">비밀번호</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="pwError"></span>
+                        <h3 class="list">비밀번호</h3><span style="color:red; font-weight: bold;"> * </span><span
+                            class="error" id="pwError"></span>
                         <span class="box_int_id"><input type="password" id="pw" class="int check" maxlength="20"></span>
                     </div>
                     <div class="userInput">
-                        <h3 class="list">비밀번호 재확인</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="pwCheckError"></span>
+                        <h3 class="list">비밀번호 재확인</h3><span style="color:red; font-weight: bold;"> * </span><span
+                            class="error" id="pwCheckError"></span>
                         <span class="box_int_id"><input type="password" id="pwCheck" class="int check"
                                 maxlength="20"></span>
                     </div>
                 </div>
                 <div class="row_group">
                     <div class="userInput">
-                        <h3 class="list">닉네임</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="nameError"></span>
+                        <h3 class="list">닉네임</h3><span style="color:red; font-weight: bold;"> * </span><span
+                            class="error" id="nameError"></span>
                         <span class="box_int_id"><input type="text" id="name" class="int check" maxlength="20"></span>
                     </div>
                     <div class="userInput">
-                        <h3 class="list">전화번호("-" 제외)</h3><span style="color:red; font-weight: bold;"> * </span><span class="error" id="phoneNumError"></span>
+                        <h3 class="list">전화번호("-" 제외)</h3><span style="color:red; font-weight: bold;"> * </span><span
+                            class="error" id="phoneNumError"></span>
                         <span class="box_int_id"><input type="text" id="phoneNum" class="int check"
                                 maxlength="11"></span>
                     </div>
@@ -60,6 +76,7 @@
                     </div>
                     <div class="btn_area">
                         <input type="submit" value="수정하기" id="btnedit" class="btn_type btn_primary">
+                        <button id="remove" class="btn_type" onclick="openModal()">탈퇴하기</button>
                     </div>
                 </div>
             </div>
@@ -67,4 +84,5 @@
     </div>
     <script src="/public/profile.js"></script>
 </body>
+
 </html>

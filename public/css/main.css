@@ -15,7 +15,7 @@ main {
 .calendar {
     max-width: 400px;
     margin: 0 auto;
-    font-family:'Gowun Dodum', sans-serif;
+    font-family: 'Gowun Dodum', sans-serif;
 }
 
 .calendar table {
@@ -24,9 +24,11 @@ main {
 }
 
 .calendar td {
-    width: calc(100% / 7); /* 테이블의 열 수에 따라 셀의 너비를 계산합니다. 7은 한 주의 일 수입니다. */
+    width: calc(100% / 7);
+    /* 테이블의 열 수에 따라 셀의 너비를 계산합니다. 7은 한 주의 일 수입니다. */
     height: 58px;
-    box-sizing: border-box; /* 셀의 너비를 테두리를 포함하여 계산하도록 합니다. */
+    box-sizing: border-box;
+    /* 셀의 너비를 테두리를 포함하여 계산하도록 합니다. */
     text-align: center;
 }
 
@@ -36,29 +38,45 @@ main {
 }
 
 .calendar .today {
-    border-radius: 50%;
-    background-color: #ff9b65;
+    border: 1px solid #ff9b65;
+    border-radius: 50px;
 }
 
 .calendar .selected {
-    background-color: #80b3ff;
+    background-color: rgba(244, 213, 74, 0.7);
+    border-radius: 50%;
 }
+
 .calendar-header {
     display: inline-flex;
     align-items: center;
     margin-bottom: 10px;
-  }
-  
-  .calendar-header button {
+}
+
+.calendar-header button {
     font-size: 1.5rem;
     background-color: transparent;
     border: none;
     cursor: pointer;
     outline: none;
     margin: 5px;
-  }
-  
-  #currentMonth {
+}
+
+#currentMonth {
     font-size: 1.5rem;
     font-weight: bold;
-  }
+}
+
+.emotion-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.image-box {
+    width: 100%;
+    height: 100%;
+    transform: scale(1.4);
+    display: flex;
+    align-content: baseline;
+}

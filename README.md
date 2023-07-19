@@ -7,8 +7,8 @@
 
 ## 팀원
 
-* 카이스트 전산학부 김혜연
-* 한양대학교 컴퓨터소프트웨어학부 김나은
+* 카이스트 전산학부 [김혜연](https://github.com/fairykhy)
+* 한양대학교 컴퓨터소프트웨어학부 [김나은](https://github.com/Naeunnkim)
 
 <br/>
 

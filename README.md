@@ -67,6 +67,9 @@ Mood Record<br/><br/>
   <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/67307bea-3076-4eff-a365-9aeb1f96d3fa" width="32%">
   <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/91aa0ce2-a39c-4cfa-ab87-2937c670a10b" width="32%">
   <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/bc4c79b2-1197-478d-a26b-53ecb2cc7c0d" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/aad47a5b-0ca6-475f-9330-c2c78ccd5aa2" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/86c20ce5-771b-475a-b6d4-83a5d8ce6853" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/f2bf6f3b-b8fa-45ff-a8bf-8ee1a80c90e9" width="32%">
 </p>
 <br/>
 
@@ -84,14 +87,9 @@ Mood Record<br/><br/>
   - DB에서 order by date 쿼리를 통해 최근 날짜에 해당하는 일기가 상단에 뜨도록 하였다.
   - grid-template-column에 repeat과 auto-fit을 활용하여 창의 크기에 따라 한 행에 보이는 카드 수를 조절했다.
   - 일기 카드마다 사이즈를 다르게 구현하여 카드간 공백을 줄이기 위해 alignToBaseline이라는 함수를 만들어 이용했다.
- 
-
-
-- addEventListener를 이용해서 좋아요 클릭시 좋아요 수 및 아이콘이 변하도록 했다
-  - 서버의 부하를 줄이기 위해 해당 창을 나가거나 새로고침 시에만 DB가 업데이트 되도록 구현했다.
-  - 자바스크립트의 fetch 함수를 이용하여 서버에 요청을 보내고 response를 받아와 처리했다.
-- 댓글 삭제 시 modal을 띄워 삭제하는게 맞는지 확인 후 삭제되도록 구현했다.
-  - 자바스크립트에 자체 modal이 존재하지 않아 display: none으로 스타일을 지정해놓고 클릭 시 보이도록 했다. 
+- 각각의 일기 카드를 클릭하면 일기 정보를 자세히 보여주는 상세 페이지로 이동한다.
+  - 우측 상단 수정 버튼을 클릭하면 글 작성 페이지로 이동하며, 이 때 fetch함수를 이용해 해당 일기의 날짜, 감정, 게시판 표시여부, 텍스트 정보를 받아와 수정 페이지로 전달한다. 등록한 사진의 경우 이미지 정보의 전달이 불가능해 사진이 유지되지 않으니 다시 선택하라는 alert를 띄운다.
+  - 우측 상단 삭제 버튼을 클릭하면 modal을 띄워 삭제하는게 맞는지 확인 후 삭제되도록 구현했다.
 
 
 ### Meditation 화면

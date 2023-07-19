@@ -32,4 +32,12 @@ Mood Record<br/><br/>
 마음이 편안해지는 영상과 음악을 감상하며 명상의 시간을 가질 수 있다. <br/>
 ***
 
-### 시작화면 - 회원가입 및 로그인
+### Home 화면
+
+### Meditation 화면
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/e6080eb5-289f-4b11-991c-f58484f6b128">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/71755db3-8557-4d91-9844-e88df46c562c">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/2edc08d2-d8fd-4ec3-89da-8146f04d052c">
+</p>
+<br/><br/><br/>

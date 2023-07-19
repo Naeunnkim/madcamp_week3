@@ -13,10 +13,6 @@
 <br/>
 
 ## 개발 환경
-<img src="https://img.shields.io/badge/HTML5-#FFFFFF?
-          style=plastic
-          &logo=html5
-          &logoColor=#E34F26"/>
 - Front: Html, Css, Javascript
 - IDE: Visual Studio Code
 - Server: Node.js

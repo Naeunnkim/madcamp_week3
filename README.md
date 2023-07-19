@@ -33,6 +33,10 @@ Mood Record<br/><br/>
 ***
 
 ### Home 화면
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/c60c0666-7964-4a60-a2c0-443c6a6742fc">
+</p>
+<br/>
 
 ### Meditation 화면
 <p>

@@ -36,8 +36,8 @@ Mood Record<br/><br/>
 
 ### Meditation 화면
 <p>
-  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/e6080eb5-289f-4b11-991c-f58484f6b128">
-  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/71755db3-8557-4d91-9844-e88df46c562c">
-  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/2edc08d2-d8fd-4ec3-89da-8146f04d052c">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/e6080eb5-289f-4b11-991c-f58484f6b128" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/71755db3-8557-4d91-9844-e88df46c562c" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/2edc08d2-d8fd-4ec3-89da-8146f04d052c" width="32%">
 </p>
 <br/><br/><br/>

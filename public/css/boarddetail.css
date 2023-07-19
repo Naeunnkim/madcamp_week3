@@ -192,6 +192,6 @@ button {
     font-size: 20px;
 }
 
-.btn_type {
+.btn_type, button {
     cursor: pointer;
 }

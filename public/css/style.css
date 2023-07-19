@@ -86,6 +86,7 @@ canvas {
     align-items: center; /* 수직 방향 가운데 정렬 */
     color: #808080;
 
+
   }
   
   .tabbutton button {
@@ -103,14 +104,17 @@ canvas {
 
   #tab1:hover {
     background-color: #fffffb;
+    cursor: pointer;
 }
 
 #tab2:hover {
     background-color: #384c79;
+    cursor: pointer;
 }
 
 #tab3:hover {
     background-color: #ffe9ec;
+    cursor: pointer;
 }
 
   main {

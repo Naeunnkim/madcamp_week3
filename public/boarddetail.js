@@ -26,7 +26,7 @@ const container = document.getElementById("comment-container");
 var cgood_change = []; //comment 좋아요 상태에 변화가 있는 애들
 var init_cgood = []; //이전에 좋아요를 눌렀던 애들 commentnum
 
-if(id!==myid) {
+if (id !== myid) {
     document.querySelector(".board-edit-icon").style.display = "none";
 }
 
@@ -90,9 +90,9 @@ fetch('/good/comment', {
                     const deleteButton = document.createElement('i');
                     deleteButton.className = "fas fa-trash-alt";
                     deleteButton.setAttribute('id', 'trash');
-                    ccard.appendChild(deleteButton); 
+                    ccard.appendChild(deleteButton);
 
-                    if(myid!==item.id){
+                    if (myid !== item.id) {
                         deleteButton.style.display = 'none';
                     }
 
@@ -116,35 +116,43 @@ fetch('/good/comment', {
                     const good_icon = good.querySelector("i");
                     const good_count = good.querySelector("p");
 
+
                     good.addEventListener('click', () => {
-                        //db 업데이트용
-                        if (cgood_change.includes(item.commentnum)) {
-                            cgood_change = cgood_change.filter(row => row !== item.commentnum);
+                        if (myid !== null) {
+                            //db 업데이트용
+                            if (cgood_change.includes(item.commentnum)) {
+                                cgood_change = cgood_change.filter(row => row !== item.commentnum);
+                            }
+                            else {
+                                cgood_change.push(item.commentnum);
+                            }
+
+                            if (good_icon.classList.contains('fa-solid')) {
+                                //좋아요 눌러져있는 경우
+                                good_icon.classList.remove('fa-solid');
+                                good_icon.classList.add('fa-regular');
+                                var ccount = good_count.textContent;
+                                ccount = (parseInt(ccount) - 1).toString();
+                                good_count.textContent = ccount;
+                            }
+                            else {
+                                //안눌러져있는 경우
+                                good_icon.classList.remove('fa-regular');
+                                good_icon.classList.add('fa-solid');
+                                var ccount = good_count.textContent;
+                                ccount = (parseInt(ccount) + 1).toString();
+                                good_count.textContent = ccount;
+                            }
                         }
                         else {
-                            cgood_change.push(item.commentnum);
+                            alert("회원가입 후 이용 가능합니다.");
+                            return false;
                         }
-
-                        if (good_icon.classList.contains('fa-solid')) {
-                            //좋아요 눌러져있는 경우
-                            good_icon.classList.remove('fa-solid');
-                            good_icon.classList.add('fa-regular');
-                            var ccount = good_count.textContent;
-                            ccount = (parseInt(ccount) - 1).toString();
-                            good_count.textContent = ccount;
-                        }
-                        else {
-                            //안눌러져있는 경우
-                            good_icon.classList.remove('fa-regular');
-                            good_icon.classList.add('fa-solid');
-                            var ccount = good_count.textContent;
-                            ccount = (parseInt(ccount) + 1).toString();
-                            good_count.textContent = ccount;
-                        }
-
                     });
 
-                    deleteButton.addEventListener('click', function(){
+
+
+                    deleteButton.addEventListener('click', function () {
                         localStorage.setItem('com_num', item.commentnum);
                         openModal();
                     });
@@ -324,16 +332,16 @@ function remove() {
     const com_num = localStorage.getItem('com_num');
     fetch('/wcomment/delete', {
         method: 'POST',
-        headers:{
+        headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({commentnum: com_num})
+        body: JSON.stringify({ commentnum: com_num })
     }).then(response => response.json())
-    .then(data =>{
-        if(data.success){
-            localStorage.removeItem('com_num');
-            console.log("ssssssssss");
-            window.location.reload();
-        }
-    })
+        .then(data => {
+            if (data.success) {
+                localStorage.removeItem('com_num');
+                // console.log("ssssssssss");
+                window.location.reload();
+            }
+        })
 }

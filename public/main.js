@@ -142,6 +142,7 @@ function renderCalendar(year, month) {
 
     //테이블 내용
     let date = 1;
+    const fDiaryData = fetchDiaryDataFromServer();
     for (let i = 0; i < 6; i++) {
         const row = document.createElement('tr');
 
@@ -180,8 +181,8 @@ function renderCalendar(year, month) {
 
         // 날짜 셀들을 다시 선택하고, 각 셀에 이미지를 표시합니다.
 
-        fetchDiaryDataFromServer()
-            .then(() => {
+        
+            fDiaryData.then(() => {
                 const cells = document.querySelectorAll('.calendar td');
                 cells.forEach(cell => {
                     const currentMonthFormatted = (currentMonth + 1).toString().padStart(2, '0');

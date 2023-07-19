@@ -14,13 +14,11 @@ function alignToBaseline() {
 
     const containerWidth = cardbox.offsetWidth;
     const cardsPerRow = Math.floor((containerWidth) / (cardWidth + spacing));
-    // console.log(cardsPerRow);
 
     for (let i = cardsPerRow; i < cardElements.length; i++) {
         const prevBaseline = cardElements[i - cardsPerRow].getBoundingClientRect().bottom;
         const currentTop = cardElements[i].getBoundingClientRect().top;
         const verticalOffset = prevBaseline - currentTop + 30;
-        // console.log(currentTop);
         cardElements[i].style.marginTop = verticalOffset + 'px';
     }
 }

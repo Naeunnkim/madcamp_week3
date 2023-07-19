@@ -3,6 +3,7 @@ const multer = require('multer');
 const mysql = require('mysql');
 const dbconfig = require('./config/db_config.js');
 const path = require('path');
+const bcrypt = require('bcrypt');
 const connection = mysql.createConnection(dbconfig);
 
 const app = express();
@@ -24,6 +25,20 @@ const storage = multer.diskStorage({
         cb(null, uniqueFilename);
     }
 });
+
+async function hashPassword(password) {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        return hashedPassword;
+    } catch (error) {
+        throw new Error('비밀번호 암호화 실패');
+    }
+};
+
+const checkPassword = (submittedPassword, hashedPassword) => {
+    return bcrypt.compare(submittedPassword, hashedPassword);
+};
 
 const upload = multer({ storage }).single('image');
 
@@ -147,10 +162,14 @@ app.post('/signup', (req, res) => {
             });
         }
         else {
-            connection.query('insert into user_info (id, pw, name, tel, email) values (?, ?, ?, ?, ?)', [id, pw, name, phoneNum, email]);
-            res.status(200).json({
-                success: true
-            });
+            hashPassword(pw)
+                .then(hashpw => {
+                    console.log(hashpw);
+                    connection.query('insert into user_info (id, pw, name, tel, email) values (?, ?, ?, ?, ?)', [id, hashpw, name, phoneNum, email]);
+                    res.status(200).json({
+                        success: true
+                    });
+                })
         }
     })
 })
@@ -179,27 +198,37 @@ app.post('/login', (req, res) => {
     const id = body.id;
     const pw = body.pw;
     if (id != null) {
-        connection.query('select * from user_info where id = ? and pw = ?', [id, pw], (error, rows) => {
+        connection.query('select * from user_info where id = ?', [id], (error, rows) => {
             if (error) throw error;
-            if (rows.length != 0) {
-                console.log("로그인 성공");
-                res.status(200).json({
-                    success: true,
-                    id: rows[0].id,
-                    name: rows[0].name,
-                    pw: rows[0].pw,
-                    tel: rows[0].tel,
-                    email: rows[0].email
-                });
-            }
-            else {
-                console.log("로그인 실패");
+            if (rows.length == 0) {
                 res.status(200).json({
                     success: false,
-                    code: 0 //아이디 또는 비밀번호 오류
-                });
+                    code: 0 //가입되지 않은 아이디
+                })
             }
-        })
+            checkPassword(pw, rows[0].pw)
+                .then(match => {
+                    if (match) {
+                        console.log("로그인 성공");
+                        res.status(200).json({
+                            success: true,
+                            id: rows[0].id,
+                            name: rows[0].name,
+                            pw: rows[0].pw,
+                            tel: rows[0].tel,
+                            email: rows[0].email
+                        });
+                    }
+                    else {
+                        console.log("로그인 실패");
+                        res.status(200).json({
+                            success: false,
+                            code: 0 //비밀번호 오류
+                        });
+                    }
+                })
+            
+        });
     }
     else {
         console.log("null id");
@@ -337,10 +366,14 @@ app.post('/profile', (req, res) => {
     const tel = body.phoneNum;
     const email = body.email;
     // console.log(id, pw, name, tel, email);
-    connection.query('update user_info set pw = ?, name = ?, tel = ?, email = ? where id = ?', [pw, name, tel, email, id], (err, rows) => {
-        if (err) throw err;
-        res.status(200).json({ succes: true });
-    })
+    hashPassword(pw)
+        .then(hashpw => {
+            connection.query('update user_info set pw = ?, name = ?, tel = ?, email = ? where id = ?', [hashpw, name, tel, email, id], (err, rows) => {
+                if (err) throw err;
+                res.status(200).json({ succes: true });
+            });
+        });
+
 })
 
 app.post('/boarddetail', (req, res) => {
@@ -370,9 +403,9 @@ app.post('/wcomment', (req, res) => {
 app.post('/wcomment/delete', (req, res) => {
     const body = req.body;
     const commentnum = body.commentnum;
-    connection.query('delete from comment where commentnum = ?', [commentnum], (err, rows) =>{
-        if(err) throw err;
-        res.status(200).json({success: true});
+    connection.query('delete from comment where commentnum = ?', [commentnum], (err, rows) => {
+        if (err) throw err;
+        res.status(200).json({ success: true });
     })
 })
 
@@ -474,8 +507,8 @@ app.post('/remove', (req, res) => {
     const body = req.body;
     const id = body.id;
     connection.query('delete from user_info where id = ?', [id], (err, rows) => {
-        if(err) throw err;
+        if (err) throw err;
         console.log('회원 탈퇴 성공');
-        res.status(200).json({success: true});
+        res.status(200).json({ success: true });
     });
 })

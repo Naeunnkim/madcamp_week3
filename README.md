@@ -195,6 +195,7 @@ async function hashPassword(password) {
 <img src="https://github.com/Naeunnkim/madcamp_week3/assets/138121077/e5862c32-6c02-481c-a778-daeb19ec7ba1">
 </p>
 <br/>
+user_info table 사진이다. 위와 같이 해싱된 값이 저장된다.
 
 #### 2. 로그인
 

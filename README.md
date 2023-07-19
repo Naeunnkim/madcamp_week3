@@ -13,6 +13,10 @@
 <br/>
 
 ## 개발 환경
+<img src="https://img.shields.io/badge/HTML5-#FFFFFF?
+          style=plastic
+          &logo=html5
+          &logoColor=#E34F26"/>
 - Front: Html, Css, Javascript
 - IDE: Visual Studio Code
 - Server: Node.js
@@ -250,11 +254,9 @@ const checkPassword = (submittedPassword, hashedPassword) => {
 - localStorage.clear()를 활용하여 창에 저장된 모든 데이터를 삭제하고 초기 화면으로 돌아간다.
 
 ### Back) DB 구성
-<p>
 user_info(<u>id</u>, pw, name, <u>tel</u>, email)<br>
 diary(<u>postnum</u>, id, date, emotion, photo, text)<br>
 dashboard(postnum)<br>
 board_good(<u>postnum, good_id)</u><br>
 comment(<u>commentnum</u>, postnum, datetime, id, text)<br>
 comment_good(<u>commentnum, good_id</u>)<br>
-</p>

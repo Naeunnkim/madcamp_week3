@@ -23,7 +23,8 @@
 ## 웹사이트 소개 (Website introduction)
 
 <p>
-  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/42da393a-e29c-4dc7-877c-5330d4dcc1b8" height="150px">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/42da393a-e29c-4dc7-877c-5330d4dcc1b8" height="32%" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/5d9fe775-08ed-455e-9208-df864fd76d85" heigh="32%" width="32%">
 </p>
 
 Mood Record<br/><br/>

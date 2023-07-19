@@ -79,7 +79,23 @@ Mood Record<br/><br/>
   - grid-template-column에 repeat과 auto-fit을 활용하여 창의 크기에 따라 한 행에 보이는 카드 수를 조절했다.
   - 일기 카드마다 사이즈를 다르게 구현하여 카드간 공백을 줄이기 위해 alignToBaseline이라는 함수를 만들어 이용했다.
 
-//alignToBaseline 코드
+```javascript
+function alignToBaseline() {
+    const cardElements = document.getElementsByClassName('card');
+    const cardWidth = 350; // 카드의 가로 너비
+    const spacing = 10; // 카드 사이의 간격
+
+    const containerWidth = cardbox.offsetWidth;
+    const cardsPerRow = Math.floor((containerWidth) / (cardWidth + spacing));
+
+    for (let i = cardsPerRow; i < cardElements.length; i++) {
+        const prevBaseline = cardElements[i - cardsPerRow].getBoundingClientRect().bottom;
+        const currentTop = cardElements[i].getBoundingClientRect().top;
+        const verticalOffset = prevBaseline - currentTop + 30;
+        cardElements[i].style.marginTop = verticalOffset + 'px';
+    }
+}
+```
 
 ### Diary 화면
 <p>

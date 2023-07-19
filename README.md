@@ -164,7 +164,7 @@ async function hashPassword(password) {
         throw new Error('비밀번호 암호화 실패');
     }
 };
-```
+```javascript
 위는 자바스크립트로 구현한 비밀번호 해싱함수이다.
 
 #### 2. 로그인
@@ -181,7 +181,7 @@ async function hashPassword(password) {
 const checkPassword = (submittedPassword, hashedPassword) => {
     return bcrypt.compare(submittedPassword, hashedPassword);
 };
-```
+```javascript
 위는 자바스크립트로 구현한 비밀번호 확인함수이다.
 
 #### 3. 마이페이지

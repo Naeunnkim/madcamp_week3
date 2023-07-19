@@ -139,6 +139,10 @@ Mood Record<br/><br/>
 ### 회원 기능
 #### 1. 회원 가입
 
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/1b844c28-6448-4a3f-839c-c9ad814ecc85">
+</p>
+<br/>
 
 #### 핵심 기능
 - 필수 항목: 아이디, 비밀번호, 비밀번호 확인, 닉네임, 전화번호, 개인정보 수집 및 이용 동의 / 선택항목: 이메일
@@ -171,6 +175,12 @@ async function hashPassword(password) {
 위는 자바스크립트로 구현한 비밀번호 해싱함수이다.
 
 #### 2. 로그인
+
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/fada5988-5e07-4210-8187-03113015aace">
+</p>
+<br/>
+
 #### 핵심 기능
 - 가입한 아이디와 비밀번호로 로그인이 가능하다.
 - 회원가입 버튼을 누르면 회원 가입 페이지로 이동한다.

@@ -200,6 +200,13 @@ const checkPassword = (submittedPassword, hashedPassword) => {
 위는 자바스크립트로 구현한 비밀번호 확인함수이다.
 
 #### 3. 마이페이지
+
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/c6d97d16-0106-4b15-afa5-907359b9234d" width="45%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/38e30fb8-517d-4f2f-961b-243f1358cf61" width="45%">
+</p>
+<br/>
+
 #### 핵심 기능
 - 비밀번호, 닉네임, 전화번호, 이메일 수정과 회원 탈퇴가 가능하다.
 - 회원 가입과 마찬가지로 비밀번호, 비밀번호 재확인, 닉네임, 전화번호가 필수항목, 이메일이 선택항목이다.

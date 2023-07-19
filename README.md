@@ -62,6 +62,38 @@ Mood Record<br/><br/>
 
 //alignToBaseline 코드
 
+### Diary 화면
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/67307bea-3076-4eff-a365-9aeb1f96d3fa" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/91aa0ce2-a39c-4cfa-ab87-2937c670a10b" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/bc4c79b2-1197-478d-a26b-53ecb2cc7c0d" width="32%">
+</p>
+<br/>
+
+#### 핵심 기능
+- 본인이 작성한 일기를 볼 수 있는 페이지이다.
+  - 비회원의 경우 회원가입을 해야 일기를 작성할 수 있다는 메세지를 표시한다.
+- 오늘 하루 기록하기 버튼을 누르면 기록 페이지로 이동한다.
+- 기록 페이지에서는 날짜, 기분, 게시판 표시 여부 등을 선택할 수 있으며, 최대 1장의 사진과 텍스트를 넣을 수 있다.
+  - 이미 일기를 작성한 날짜에는 또다른 일기를 작성 할 수 없다.
+  - 기분을 선택하지 않으면 저장 되지 않는다.
+  - 게시판 표시를 체크하면 diary와 dashboard 화면에서 모두 확인이 가능하며, 체크하지 않으면 작성자만 볼 수 있다.
+
+#### 기능 설명
+- CSS의 grid display를 활용해 일기 정보를 표시한다.
+  - DB에서 order by date 쿼리를 통해 최근 날짜에 해당하는 일기가 상단에 뜨도록 하였다.
+  - grid-template-column에 repeat과 auto-fit을 활용하여 창의 크기에 따라 한 행에 보이는 카드 수를 조절했다.
+  - 일기 카드마다 사이즈를 다르게 구현하여 카드간 공백을 줄이기 위해 alignToBaseline이라는 함수를 만들어 이용했다.
+ 
+
+
+- addEventListener를 이용해서 좋아요 클릭시 좋아요 수 및 아이콘이 변하도록 했다
+  - 서버의 부하를 줄이기 위해 해당 창을 나가거나 새로고침 시에만 DB가 업데이트 되도록 구현했다.
+  - 자바스크립트의 fetch 함수를 이용하여 서버에 요청을 보내고 response를 받아와 처리했다.
+- 댓글 삭제 시 modal을 띄워 삭제하는게 맞는지 확인 후 삭제되도록 구현했다.
+  - 자바스크립트에 자체 modal이 존재하지 않아 display: none으로 스타일을 지정해놓고 클릭 시 보이도록 했다. 
+
+
 ### Meditation 화면
 <p>
   <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/e6080eb5-289f-4b11-991c-f58484f6b128" width="32%">

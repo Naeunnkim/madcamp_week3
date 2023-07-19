@@ -13,7 +13,7 @@
 <br/>
 
 ## 개발 환경
-- Language: Html, Css, Javascript
+- Front: Html, Css, Javascript
 - IDE: Visual Studio Code
 - Server: Node.js
 - Database: MySQL
@@ -47,7 +47,11 @@ Mood Record<br/><br/>
 - 음악 재생 버튼 아래의 탭 버튼을 통해 다른 애니메이션이 보여지도록 구현했다.
 
 #### 기능 설명
-- Tab1의 애니메이션은 quadraticCurveTo를 이용해 점들을 곡선으로 연결하였고, 각각의 점들은 sine함수를 따라 움직이도록 구현하였다.
-- Tab2의 애니메이션은 공의 경계선 좌표가 브라우저 화면에 닿을 때 방향 좌표에 -1을 곱해주어 반대 방향으로 움직이도록 구현하였다.
-- Tab3의 애니메이션은 산 경계선의 y좌표를 랜덤하게 생성해 이 점들을 quadraticCurveTo를 이용해 연결하였다. 태양의 이글거리는 경계선은 sine함수와 cosine함수를 통해 랜덤하게 생성한 점들을 직선으로 잇고, 이 함수가 한 프레임마다 실행되도록 설정해 매 프레임 다른 이미지를 띄워 이글거리는 느낌을 준다.
-- Reference: 유튜브 interactive developer
+- 음악 재생
+  - autoplay를 통해 화면이 전환되면 자동으로 재생되도록 했다.
+
+- 애니메이션
+  - Tab1의 애니메이션은 quadraticCurveTo를 이용해 점들을 곡선으로 연결하였고, 각각의 점들은 sine함수를 따라 움직이도록 구현하였다.
+  - Tab2의 애니메이션은 공의 경계선 좌표가 브라우저 화면에 닿을 때 방향 좌표에 -1을 곱해주어 반대 방향으로 움직이도록 구현하였다.
+  - Tab3의 애니메이션은 산 경계선의 y좌표를 랜덤하게 생성해 이 점들을 quadraticCurveTo를 이용해 연결하였다. 태양의 이글거리는 경계선은 sine함수와 cosine함수를 통해 랜덤하게 생성한 점들을 직선으로 잇고, 이 함수가 한 프레임마다 실행되도록 설정해 매 프레임 다른 이미지를 띄워 이글거리는 느낌을 준다.
+  - Reference: 유튜브 interactive developer

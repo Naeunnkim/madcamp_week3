@@ -191,6 +191,10 @@ async function hashPassword(password) {
 ```
 
 위는 자바스크립트로 구현한 비밀번호 해싱함수이다.
+<p>
+<img src="https://github.com/Naeunnkim/madcamp_week3/assets/138121077/e5862c32-6c02-481c-a778-daeb19ec7ba1">
+</p>
+<br/>
 
 #### 2. 로그인
 

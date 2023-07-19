@@ -52,6 +52,12 @@ Mood Record<br/><br/>
   - 달력을 구현하는 renderCalendar함수 내부에 diary로 부터 날짜와 감정을 받아와 이를 이미지로 표시하는 부분이 포함되어있다.
 
 ### Dashboard 화면
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/41eba320-a174-438e-a0c2-ad2692339052" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/0dca5fce-047e-430c-8453-590ed7cc8bd1" width="32%">
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/5e782b1f-22f1-4a38-a50e-e6b8f0be9d38" width="32%">
+</p>
+
 #### 핵심 기능
 - 본인이 작성한 일기를 공유할 수 있는 공간이다.
 - 화면 왼쪽에는 유저들이 작성한 일기의 기분을 불러와 기분별 그래프로 보여준다.

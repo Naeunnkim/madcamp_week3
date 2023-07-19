@@ -154,7 +154,7 @@ Mood Record<br/><br/>
 - 회원가입 시 비밀번호는 해싱 후에 저장되어 DB에서 비밀번호 조회가 불가능하다.
   - hash의 경우 node.js의 bcrypt를 이용하여 구현하였다. (bcrypt.genSalt, bcrypt.hash)
 
-```
+```javascript
 async function hashPassword(password) {
     try {
         const salt = await bcrypt.genSalt(10);
@@ -164,7 +164,7 @@ async function hashPassword(password) {
         throw new Error('비밀번호 암호화 실패');
     }
 };
-```javascript
+```
 위는 자바스크립트로 구현한 비밀번호 해싱함수이다.
 
 #### 2. 로그인
@@ -177,11 +177,11 @@ async function hashPassword(password) {
 - 로그인이 성공적으로 이루어지면 alert를 이용해서 로그인이 완료되었다는 메시지를 띄운다.
   - 새 페이지를 로드할 때마다 DB에서 회원 정보를 불러 오지 않고 로그인 시 회원 정보를 localStorage에 저장해두고 사용하도록 하여 서버의 부하를 줄인다.
 - bcrypt.compare를 이용하여 DB에서 가져온 해싱된 비밀번호와 입력한 비밀번호를 비교한다.
-```
+```javascript
 const checkPassword = (submittedPassword, hashedPassword) => {
     return bcrypt.compare(submittedPassword, hashedPassword);
 };
-```javascript
+```
 위는 자바스크립트로 구현한 비밀번호 확인함수이다.
 
 #### 3. 마이페이지

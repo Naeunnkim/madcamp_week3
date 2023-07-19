@@ -22,6 +22,10 @@
 
 ## 웹사이트 소개 (Website introduction)
 
+<p>
+  <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/42da393a-e29c-4dc7-877c-5330d4dcc1b8" height="150px">
+</p>
+
 Mood Record<br/><br/>
 하루하루의 감정을 일기에 기록하고 원하는 경우 게시판에 공유할 수 있다.<br/>
 마음이 편안해지는 영상과 음악을 감상하며 명상의 시간을 가질 수 있다. <br/>

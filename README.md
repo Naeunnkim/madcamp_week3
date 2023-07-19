@@ -97,6 +97,8 @@ function alignToBaseline() {
 }
 ```
 
+위는 자바스크립트로 구현한 alignToBaseline 함수이다.
+
 ### Diary 화면
 <p>
   <img src="https://github.com/Naeunnkim/madcamp_week3/assets/128071056/67307bea-3076-4eff-a365-9aeb1f96d3fa" width="32%">
